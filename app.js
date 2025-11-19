@@ -1,15 +1,27 @@
+// app.js
 const express = require('express');
-const mysql = require('mysql');
-const myConnection= require('express-myconnection');
+const path = require('path');
 const app = express();
 
-app.use(myConnection(mysql,{
-  host: 'localhost',
-  user: 'retrogamer',
-  password: 'retro',
-  port: 3306,
-  database: 'db_retrogamer'
-}))
+const clienteRoutes = require('./src/routes/clienteRoutes');
 
-app.get('/', (req, res) => res.send('Retro Gamer'));
-app.listen(8080);
+// middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// estáticos (frontend, admin, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// rutas API
+app.use('/api/clientes', clienteRoutes);
+
+// (opcional) página de admin básica para probar
+app.get('/admin/clientes', (_req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin-clientes.html'));
+});
+
+// puerto
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log('Servidor escuchando en http://localhost:' + PORT);
+});

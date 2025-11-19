@@ -133,3 +133,6 @@ APP/
  ├─ package.json          # Configuración del proyecto y dependencias
  ├─ package-lock.json     # Versión exacta instalada de dependencias
  └─ Readme.md             # Instrucciones del proyecto
+
+## 📌 Repositorio del proyecto
+https://github.com/brandonfloresmx/retrogamer-app
