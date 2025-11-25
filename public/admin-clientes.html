@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Panel de administración - Clientes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;600&display=swap" />
   <style>
     :root {
       --bg: #0f172a;
@@ -377,10 +378,10 @@
 
       <form id="formCliente" autocomplete="off">
         <label for="telefono">Teléfono (10 dígitos)</label>
-        <input type="text" id="telefono" maxlength="10" placeholder="Ej. 5512345678" />
+        <input type="text" id="telefono" maxlength="10" placeholder="Ej. 9612345678" />
 
         <label for="nombre">Nombre completo</label>
-        <input type="text" id="nombre" placeholder="Ej. Brandon Flores" />
+        <input type="text" id="nombre" placeholder="Nombre completo" />
 
         <label for="correo">Correo electrónico</label>
         <input type="email" id="correo" placeholder="correo@ejemplo.com" />
@@ -398,7 +399,7 @@
 
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">
-            <span class="btn-icon">💾</span>
+            <span class="material-symbols-outlined">save</span>
             <span id="btnGuardarTexto">Guardar cliente</span>
           </button>
           <button type="button" class="btn btn-secondary" id="btnCancelar">
@@ -419,7 +420,7 @@
 
       <div class="list-header">
         <div class="search-box">
-          <span>🔍</span>
+          <span class="material-symbols-outlined">search</span>
           <input type="text" id="buscador" placeholder="Buscar por teléfono, nombre o correo..." />
         </div>
         <div class="count-chip">

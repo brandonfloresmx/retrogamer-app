@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>RetroGamer · Tienda de videojuegos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Iconos Google -->
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;600&display=swap">
+
+  <!-- Tu CSS -->
+  <link rel="stylesheet" href="/css/home.css">
+  <!-- JS del home -->
+  <script defer src="/js/home.js"></script>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="rg-header">
+    <div class="rg-header-top">
+      
+
+      <!-- Logo -->
+      <div class="rg-logo-box">
+        <img src="/img/logo-1.png" alt="RetroGamer" class="rg-logo-img">
+      </div>
+
+      <!-- Búsqueda -->
+      <form class="rg-search" autocomplete="off">
+        <span class="material-symbols-outlined">search</span>
+        <input type="search"
+               id="headerSearch"
+               placeholder="¿Qué quieres comprar?">
+      </form>
+
+      <!-- Cuenta / Login -->
+            <!-- Cuenta / Login con dropdown -->
+      <div class="rg-account-wrapper">
+        <button class="rg-icon-btn" id="btnAccount" type="button">
+          <span class="material-symbols-outlined">person</span>
+          <span id="accountLabel">Iniciar sesión</span>
+        </button>
+
+        <!-- Menú desplegable de cuenta (solo visible cuando hay sesión) -->
+        <div class="rg-account-menu hidden" id="accountMenu">
+          <button type="button" id="accountMenuPerfil">
+            <span class="material-symbols-outlined">settings</span>
+            Administrar perfil
+          </button>
+          <button type="button" id="accountMenuLogout">
+            <span class="material-symbols-outlined">logout</span>
+            Salir
+          </button>
+        </div>
+      </div>
+
+      <!-- Carrito -->
+      <button class="rg-icon-btn" id="btnCart" type="button">
+        <span class="material-symbols-outlined">shopping_cart</span>
+        <span>Carrito</span>
+      </button>
+    </div>
+
+    <nav class="rg-header-bottom">
+      <a href="#" class="rg-nav-link rg-nav-link-active" id="linkInicio">Inicio</a>
+      <a href="#" class="rg-nav-link">Juegos</a>
+      <a href="#" class="rg-nav-link">Consolas</a>
+      <a href="#" class="rg-nav-link">Accesorios</a>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main>
+    <!-- HOME NORMAL -->
+    <section id="homeSection" class="rg-main-placeholder">
+    </section>
+
+    <!-- VISTA CUENTA DENTRO DEL MISMO INDEX -->
+    <section id="cuentaSection" class="cuenta-wrapper hidden">
+      <div class="cuenta-layout">
+        <!-- Sidebar -->
+        <aside class="cuenta-sidebar">
+          <div class="cuenta-user-box">
+            <p class="cuenta-saludo">
+              Hola, <span id="saludoNombre">CLIENTE</span>
+            </p>
+            <p class="cuenta-label-small">Número de cuenta:</p>
+            <p class="cuenta-valor-small" id="cuentaNumero">-</p>
+          </div>
+
+          <nav class="cuenta-menu">
+            <button type="button" class="cuenta-menu-item">
+              <span class="material-symbols-outlined">shopping_bag</span>
+              Tus compras
+            </button>
+            <button type="button" class="cuenta-menu-item">
+              <span class="material-symbols-outlined">favorite</span>
+              Favoritos
+            </button>
+            <button type="button" class="cuenta-menu-item cuenta-menu-item-activo">
+              <span class="material-symbols-outlined">person</span>
+              Tu perfil
+            </button>
+            <button type="button" class="cuenta-menu-item">
+              <span class="material-symbols-outlined">location_on</span>
+              Tus direcciones
+            </button>
+          </nav>
+
+          <button type="button" class="cuenta-btn-salir" id="btnSalirCuenta">
+            <span class="material-symbols-outlined">logout</span>
+            Cerrar sesión
+          </button>
+        </aside>
+
+        <!-- Panel derecho -->
+        <section class="cuenta-main">
+          <h1 class="cuenta-titulo">Tu perfil</h1>
+
+          <article class="cuenta-card">
+            <div class="cuenta-card-header">
+              <h2>Información personal</h2>
+              <button type="button" class="cuenta-card-edit">Editar</button>
+            </div>
+            <div class="cuenta-card-body cuenta-grid-2">
+              <div>
+                <p class="cuenta-label">Nombre</p>
+                <p class="cuenta-valor" id="datoNombre">-</p>
+              </div>
+              <div>
+                <p class="cuenta-label">Apellidos</p>
+                <p class="cuenta-valor" id="datoApellidos">-</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="cuenta-card">
+            <div class="cuenta-card-header">
+              <h2>Dirección de email</h2>
+              <button type="button" class="cuenta-card-edit">Editar</button>
+            </div>
+            <div class="cuenta-card-body">
+              <p class="cuenta-label">Dirección de email</p>
+              <p class="cuenta-valor" id="datoEmail">-</p>
+            </div>
+          </article>
+
+          <article class="cuenta-card">
+            <div class="cuenta-card-header">
+              <h2>Número de contacto</h2>
+            </div>
+            <div class="cuenta-card-body">
+              <p class="cuenta-label">Número de contacto</p>
+              <p class="cuenta-valor" id="datoTelefono">-</p>
+            </div>
+          </article>
+
+          <article class="cuenta-card">
+            <div class="cuenta-card-header">
+              <h2>Contraseña</h2>
+            </div>
+            <div class="cuenta-card-body">
+              <a href="#" class="cuenta-link">Restablecer contraseña</a>
+            </div>
+          </article>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- OVERLAY LOGIN / REGISTRO -->
+  <div class="rg-overlay hidden" id="loginOverlay">
+    <div class="rg-overlay-backdrop" id="overlayBackdrop"></div>
+
+    <div class="rg-login-wrapper">
+      <button class="rg-close-btn" id="btnCerrarLogin" type="button">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+      <div class="card" id="loginCard">
+        <div class="logo">
+          <img src="/img/logo.png" class="logo-img" alt="RetroGamer">
+          <div class="logo-text">
+            <span>RETROGAMER</span>
+            <span>Tienda de videojuegos</span>
+          </div>
+        </div>
+
+        <div class="tabs">
+          <button type="button" class="tab active" id="tabLogin">
+            <span class="material-symbols-outlined">login</span>
+            Iniciar sesión
+          </button>
+          <button type="button" class="tab" id="tabRegistro">
+            <span class="material-symbols-outlined">person_add</span>
+            Crear cuenta
+          </button>
+        </div>
+
+        <h1 class="title" id="tituloForm">Bienvenido de vuelta</h1>
+        <p class="subtitle" id="subtituloForm">
+          Ingresa con tu número de celular para continuar tu compra.
+        </p>
+
+        <!-- FORM LOGIN -->
+        <form id="formLogin">
+          <label for="loginTelefono">Teléfono (10 dígitos)</label>
+          <input type="text" id="loginTelefono" maxlength="10" placeholder="Ej. 5512345678">
+          <div class="field-error" id="errorLoginTelefono"></div>
+
+          <label for="loginPassword">Contraseña</label>
+          <input type="password" id="loginPassword" placeholder="Tu contraseña">
+          <div class="field-error" id="errorLoginPassword"></div>
+
+          <button type="submit" class="btn-primary">
+            <span class="material-symbols-outlined">login</span>
+            Iniciar sesión
+          </button>
+        </form>
+
+        <!-- FORM REGISTRO -->
+        <form id="formRegistro" class="hidden">
+          <label for="regNombre">Nombre completo</label>
+          <input type="text" id="regNombre" placeholder="Ej. Brandon Flores">
+          <div class="field-error" id="errorRegNombre"></div>
+
+          <label for="regTelefono">Teléfono (10 dígitos)</label>
+          <input type="text" id="regTelefono" maxlength="10" placeholder="Ej. 5512345678">
+          <div class="field-error" id="errorRegTelefono"></div>
+
+          <label for="regCorreo">Correo electrónico</label>
+          <input type="email" id="regCorreo" placeholder="correo@ejemplo.com">
+          <div class="field-error" id="errorRegCorreo"></div>
+
+          <label for="regPassword">Contraseña</label>
+          <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres">
+          <div class="field-error" id="errorRegPassword"></div>
+
+          <label for="regPassword2">Repetir contraseña</label>
+          <input type="password" id="regPassword2" placeholder="Repite la contraseña">
+          <div class="field-error"></div>
+
+          <button type="submit" class="btn-primary">
+            <span class="material-symbols-outlined">person_add</span>
+            Crear cuenta
+          </button>
+        </form>
+
+        <div class="switch-text" id="switchTexto">
+          ¿No tienes cuenta?
+          <button type="button" id="btnIrRegistro">Crear una cuenta</button>
+        </div>
+
+        <div class="status" id="mensaje"></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+

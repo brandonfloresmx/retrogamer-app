@@ -1,0 +1,632 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #ffffff;
+  color: #111827;
+  min-height: 100vh;
+}
+
+/* ================= HEADER ================= */
+
+.rg-header {
+  background: #e30613; 
+  color: #fff;
+  padding: 8px 32px 0;
+}
+
+.rg-header-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Menú hamburguesa */
+.rg-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.rg-menu-btn .material-symbols-outlined {
+  font-size: 26px;
+}
+
+.rg-menu-text {
+  font-size: 0.8rem;
+}
+
+/* Logo */
+.rg-logo-box {
+  width: 86px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rg-logo-img {
+  max-width: 200%;
+  max-height: 200%;
+  object-fit: contain;
+}
+
+/* Búsqueda */
+.rg-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 16px;
+  max-width: 1024px; 
+  margin: 0 auto;
+}
+
+.rg-search .material-symbols-outlined {
+  color: #9ca3af;
+  font-size: 22px;
+}
+
+.rg-search input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+/* Botones cuenta y cesta */
+.rg-icon-btn {
+  border: none;
+  background: transparent;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.rg-icon-btn .material-symbols-outlined {
+  font-size: 24px;
+}
+
+/* Nav inferior */
+.rg-header-bottom {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 10px;
+  padding: 6px 0 10px;
+}
+
+.rg-nav-link {
+  color: #ffecec;
+  text-decoration: none;
+  font-size: 0.9rem;
+  position: relative;
+}
+
+.rg-nav-link-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  border-radius: 999px;
+  background: #ffffff;
+}
+
+/* Contenido placeholder */
+.rg-main-placeholder {
+  padding: 40px 32px;
+}
+
+.rg-main-text {
+  color: #4b5563;
+}
+
+/* ================= OVERLAY LOGIN ================= */
+
+.rg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Fondo oscuro SIN blur */
+.rg-overlay-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* solo oscurece, no difumina */
+}
+
+/* Wrapper para centrar el card */
+.rg-login-wrapper {
+  position: relative;
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+/* Botón cerrar */
+.rg-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  border: none;
+  background: #ffffff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+.rg-close-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+/* ========== CARD LOGIN (estilo limpio, sin blur de fondo) ========== */
+
+:root {
+  --accent: #e30613;
+  --accent-soft: #fee2e2;
+  --accent-strong: #b91c1c;
+  --border-soft: #e5e7eb;
+  --muted: #6b7280;
+  --danger: #b91c1c;
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  padding: 24px 22px 18px;
+}
+
+/* Logo dentro del card */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.logo-img {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.logo-text span:first-child {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+.logo-text span:last-child {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+/* Tabs */
+.tabs {
+  display: inline-flex;
+  background: #f4f4f5;
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  color: #4b5563;
+}
+
+.tab .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.tab.active {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 0 0 1px #e5e7eb;
+}
+
+/* Título y subtítulo */
+.title {
+  font-size: 1.25rem;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+
+/* Formularios */
+.card form {
+  margin-bottom: 8px;
+}
+
+.card label {
+  display: block;
+  font-size: 0.8rem;
+  color: #4b5563;
+  margin-bottom: 3px;
+}
+
+.card input {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  padding: 8px 10px;
+  font-size: 0.9rem;
+  outline: none;
+  margin-bottom: 4px;
+}
+
+.card input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.2);
+}
+
+/* Errores */
+.field-error {
+  font-size: 0.75rem;
+  color: var(--danger);
+  margin-bottom: 6px;
+}
+
+/* Botón principal */
+.btn-primary {
+  width: 100%;
+  border-radius: 999px;
+  border: none;
+  padding: 9px 12px;
+  margin-top: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f97316, #facc15);
+  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
+/* Texto para cambiar entre login/registro */
+.switch-text {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+}
+
+.switch-text button {
+  color: var(--accent);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+}
+
+/* Mensaje global */
+.status {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  min-height: 20px;
+  text-align: center;
+}
+
+.status.ok {
+  color: #16a34a;
+}
+
+.status.error {
+  color: var(--danger);
+}
+
+/* Pequeña responsividad */
+@media (max-width: 768px) {
+  .rg-header {
+    padding: 8px 12px 0;
+  }
+
+  .rg-header-top {
+    gap: 10px;
+  }
+
+  .rg-header-bottom {
+    gap: 20px;
+    font-size: 0.85rem;
+  }
+
+  .rg-menu-text {
+    display: none;
+  }
+
+  .rg-icon-btn span:last-child {
+    display: none; /* solo iconos en muy chico */
+  }
+}
+
+/* ===================== PÁGINA CUENTA ===================== */
+
+.cuenta-wrapper {
+  padding: 24px 32px 40px;
+  background: #f3f4f6;
+  min-height: calc(100vh - 100px);
+}
+
+.cuenta-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 24px;
+}
+
+/* Sidebar */
+.cuenta-sidebar {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cuenta-user-box {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 12px;
+}
+
+.cuenta-saludo {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.cuenta-saludo span {
+  display: block;
+}
+
+.cuenta-label-small {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.cuenta-valor-small {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.cuenta-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cuenta-menu-item {
+  border-radius: 999px;
+  border: none;
+  background: #f9fafb;
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-align: left;
+  color: #111827;
+}
+
+.cuenta-menu-item .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.cuenta-menu-item-activo {
+  background: #e30613;
+  color: #ffffff;
+}
+
+.cuenta-btn-salir {
+  margin-top: auto;
+  border-radius: 999px;
+  border: 1px solid #ef4444;
+  background: #fef2f2;
+  color: #b91c1c;
+  padding: 7px 10px;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* Panel derecho */
+.cuenta-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cuenta-titulo {
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+.cuenta-card {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  padding: 14px 16px;
+}
+
+.cuenta-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cuenta-card-header h2 {
+  font-size: 1rem;
+}
+
+.cuenta-card-edit {
+  border-radius: 999px;
+  border: none;
+  background: #111827;
+  color: #ffffff;
+  font-size: 0.75rem;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.cuenta-card-body {
+  font-size: 0.85rem;
+}
+
+.cuenta-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cuenta-label {
+  font-size: 0.78rem;
+  color: #6b7280;
+  margin-bottom: 2px;
+}
+
+.cuenta-valor {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.cuenta-link {
+  font-size: 0.85rem;
+  color: #e30613;
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  .cuenta-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ======== Dropdown Cuenta ======== */
+
+.rg-account-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Botón cuenta */
+#btnAccount {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+
+#btnAccount:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* Menu desplegable */
+.rg-account-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+  width: 180px;
+  overflow: hidden;
+  z-index: 999;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+.rg-account-menu.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.95);
+}
+
+/* Items del menú */
+.rg-account-menu button {
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+
+.rg-account-menu button:hover {
+  background: #f2f2f2;
+}
+
+.rg-account-menu button span.material-symbols-outlined {
+  font-size: 20px;
+  opacity: 0.8;
+}

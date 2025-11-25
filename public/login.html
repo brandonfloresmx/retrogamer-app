@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>RetroGamer · Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #0f172a;
+      --card: rgba(15,23,42,0.9);
+      --accent: #38bdf8;
+      --accent-strong: #0ea5e9;
+      --danger: #f97373;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --radius: 18px;
+      --shadow: 0 25px 60px rgba(0,0,0,0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background:white;
+      color: var(--text);
+      padding: 16px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid rgba(148,163,184,0.3);
+      box-shadow: var(--shadow);
+      padding: 22px 22px 20px;
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.25), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(129,140,248,0.18), transparent 55%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .logo-img {
+    width: 55px;
+    height: 42px;
+    object-fit: cover;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text span:first-child {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .logo-text span:last-child {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .tabs {
+      display: flex;
+      gap: 6px;
+      background: rgba(15,23,42,0.85);
+      padding: 3px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.3);
+      margin-bottom: 16px;
+    }
+
+    .tab {
+      flex: 1;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 0.82rem;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, var(--accent-strong), #22c1c3);
+      color: #0b1120;
+      font-weight: 600;
+      box-shadow: 0 10px 18px rgba(8,47,73,0.7);
+    }
+
+    .title {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    form label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    form input {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.9);
+      color: var(--text);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s;
+      margin-bottom: 8px;
+    }
+
+    form input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.55);
+      background: rgba(15,23,42,1);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .form-row > div {
+      flex: 1;
+    }
+
+    .hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      padding: 9px 12px;
+      margin-top: 4px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-strong), #22c1c3);
+      color: #0b1120;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 16px 30px rgba(8,47,73,0.8);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    .switch-text {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .switch-text button {
+      color: var(--accent);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: inherit;
+      padding: 0;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      min-height: 20px;
+      text-align: center;
+    }
+
+    .status.ok {
+      color: #4ade80;
+    }
+
+    .status.error {
+      color: var(--danger);
+    }
+
+    .field-error {
+      font-size: 0.75rem;
+      color: var(--danger);
+      margin-top: -5px;
+      margin-bottom: 6px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <img src="/img/logo.png" class="logo-img">
+    <div class="logo-text">
+      <span>RETROGAMER</span>
+      <span>Tienda de videojuegos</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button type="button" class="tab active" id="tabLogin">
+      <span class="material-symbols-outlined">login</span> Iniciar sesión
+    </button>
+    <button type="button" class="tab" id="tabRegistro">
+      <span class="material-symbols-outlined">person_add</span> Crear cuenta
+    </button>
+  </div>
+
+  <h1 class="title" id="tituloForm">Bienvenido de vuelta</h1>
+  <p class="subtitle" id="subtituloForm">
+    Ingresa con tu número de celular para continuar tu compra.
+  </p>
+
+  <!-- FORM LOGIN -->
+  <form id="formLogin">
+    <label for="loginTelefono">Teléfono (10 dígitos)</label>
+    <input type="text" id="loginTelefono" maxlength="10" placeholder="Ej. 5512345678" />
+    <div id="errorLoginTelefono" class="field-error hidden"></div>
+
+    <label for="loginPassword">Contraseña</label>
+    <input type="password" id="loginPassword" placeholder="Mínimo 8 caracteres" />
+    <div id="errorLoginPassword" class="field-error hidden"></div>
+
+    <button type="submit" class="btn-primary">
+      <span>Entrar</span> <span>▶</span>
+    </button>
+  </form>
+
+  <!-- FORM REGISTRO -->
+  <form id="formRegistro" class="hidden">
+    <label for="regNombre">Nombre completo</label>
+    <input type="text" id="regNombre" placeholder="Ej. Brandon Flores" />
+    <div id="errorRegNombre" class="field-error hidden"></div>
+
+    <label for="regTelefono">Teléfono (10 dígitos)</label>
+    <input type="text" id="regTelefono" maxlength="10" placeholder="Ej. 5512345678" />
+    <div id="errorRegTelefono" class="field-error hidden"></div>
+
+    <label for="regCorreo">Correo electrónico</label>
+    <input type="email" id="regCorreo" placeholder="correo@ejemplo.com" />
+    <div id="errorRegCorreo" class="field-error hidden"></div>
+
+    <div class="form-row">
+      <div>
+        <label for="regPassword">Contraseña</label>
+        <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres" />
+      </div>
+      <div>
+        <label for="regPassword2">Confirmar contraseña</label>
+        <input type="password" id="regPassword2" placeholder="Repite la contraseña" />
+      </div>
+    </div>
+    <div id="errorRegPassword" class="field-error hidden"></div>
+
+    <p class="hint">
+      El teléfono será tu usuario principal para iniciar sesión.
+    </p>
+
+    <button type="submit" class="btn-primary">
+      <span>Crear cuenta</span> <span>⭐</span>
+    </button>
+  </form>
+
+  <p class="switch-text" id="switchTexto">
+    ¿No tienes cuenta?
+    <button type="button" id="btnIrRegistro">Crear una cuenta</button>
+  </p>
+
+  <div id="mensaje" class="status"></div>
+</div>
+
+<script>
+  const regexTelefono = /^[0-9]{10}$/;
+  const regexCorreo  = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+  const tabLogin = document.getElementById('tabLogin');
+  const tabRegistro = document.getElementById('tabRegistro');
+  const formLogin = document.getElementById('formLogin');
+  const formRegistro = document.getElementById('formRegistro');
+  const tituloForm = document.getElementById('tituloForm');
+  const subtituloForm = document.getElementById('subtituloForm');
+  const switchTexto = document.getElementById('switchTexto');
+  const btnIrRegistro = document.getElementById('btnIrRegistro');
+  const mensaje = document.getElementById('mensaje');
+
+  const loginTelefono = document.getElementById('loginTelefono');
+  const loginPassword = document.getElementById('loginPassword');
+  const errorLoginTelefono = document.getElementById('errorLoginTelefono');
+  const errorLoginPassword = document.getElementById('errorLoginPassword');
+
+  const regNombre = document.getElementById('regNombre');
+  const regTelefono = document.getElementById('regTelefono');
+  const regCorreo = document.getElementById('regCorreo');
+  const regPassword = document.getElementById('regPassword');
+  const regPassword2 = document.getElementById('regPassword2');
+  const errorRegNombre = document.getElementById('errorRegNombre');
+  const errorRegTelefono = document.getElementById('errorRegTelefono');
+  const errorRegCorreo = document.getElementById('errorRegCorreo');
+  const errorRegPassword = document.getElementById('errorRegPassword');
+
+  function setStatus(texto, tipo) {
+    mensaje.textContent = texto || '';
+    mensaje.className = 'status ' + (tipo || '');
+  }
+
+  function limpiarErrores() {
+    [
+      errorLoginTelefono,
+      errorLoginPassword,
+      errorRegNombre,
+      errorRegTelefono,
+      errorRegCorreo,
+      errorRegPassword
+    ].forEach(el => {
+      el.textContent = '';
+      el.classList.add('hidden');
+    });
+    setStatus('', '');
+  }
+
+  function irLogin() {
+    tabLogin.classList.add('active');
+    tabRegistro.classList.remove('active');
+    formLogin.classList.remove('hidden');
+    formRegistro.classList.add('hidden');
+    tituloForm.textContent = 'Bienvenido de vuelta';
+    subtituloForm.textContent = 'Ingresa con tu número de celular para continuar tu compra.';
+    switchTexto.innerHTML = '¿No tienes cuenta? <button type="button" id="btnIrRegistro">Crear una cuenta</button>';
+    document.getElementById('btnIrRegistro').addEventListener('click', irRegistro);
+    limpiarErrores();
+  }
+
+  function irRegistro() {
+    tabRegistro.classList.add('active');
+    tabLogin.classList.remove('active');
+    formRegistro.classList.remove('hidden');
+    formLogin.classList.add('hidden');
+    tituloForm.textContent = 'Crear cuenta';
+    subtituloForm.textContent = 'Regístrate para guardar tu carrito y tu historial de compras.';
+    switchTexto.innerHTML = '¿Ya tienes cuenta? <button type="button" id="btnIrLogin">Inicia sesión</button>';
+    document.getElementById('btnIrLogin').addEventListener('click', irLogin);
+    limpiarErrores();
+  }
+
+  tabLogin.addEventListener('click', irLogin);
+  tabRegistro.addEventListener('click', irRegistro);
+  btnIrRegistro.addEventListener('click', irRegistro);
+
+  // Validar LOGIN antes de hacer fetch
+  function validarLoginCliente() {
+    let ok = true;
+    limpiarErrores();
+
+    const tel = loginTelefono.value.trim();
+    const pass = loginPassword.value;
+
+    if (!regexTelefono.test(tel)) {
+      errorLoginTelefono.textContent = 'El teléfono debe tener exactamente 10 dígitos.';
+      errorLoginTelefono.classList.remove('hidden');
+      ok = false;
+    }
+    if (!pass || pass.length < 8) {
+      errorLoginPassword.textContent = 'La contraseña debe tener al menos 8 caracteres.';
+      errorLoginPassword.classList.remove('hidden');
+      ok = false;
+    }
+    return ok;
+  }
+
+  // Validar REGISTRO antes de hacer fetch
+  function validarRegistroCliente() {
+    let ok = true;
+    limpiarErrores();
+
+    const nombre = regNombre.value.trim();
+    const tel = regTelefono.value.trim();
+    const correo = regCorreo.value.trim();
+    const pass1 = regPassword.value;
+    const pass2 = regPassword2.value;
+
+    if (!nombre) {
+      errorRegNombre.textContent = 'El nombre es obligatorio.';
+      errorRegNombre.classList.remove('hidden');
+      ok = false;
+    } else if (nombre.length > 150) {
+      errorRegNombre.textContent = 'El nombre debe tener máximo 150 caracteres.';
+      errorRegNombre.classList.remove('hidden');
+      ok = false;
+    }
+
+    if (!regexTelefono.test(tel)) {
+      errorRegTelefono.textContent = 'El teléfono debe tener exactamente 10 dígitos.';
+      errorRegTelefono.classList.remove('hidden');
+      ok = false;
+    }
+
+    if (!regexCorreo.test(correo)) {
+      errorRegCorreo.textContent = 'Correo electrónico inválido.';
+      errorRegCorreo.classList.remove('hidden');
+      ok = false;
+    } else if (correo.length > 120) {
+      errorRegCorreo.textContent = 'El correo debe tener máximo 120 caracteres.';
+      errorRegCorreo.classList.remove('hidden');
+      ok = false;
+    }
+
+    if (!pass1 || pass1.length < 8) {
+      errorRegPassword.textContent = 'La contraseña debe tener al menos 8 caracteres.';
+      errorRegPassword.classList.remove('hidden');
+      ok = false;
+    } else if (pass1 !== pass2) {
+      errorRegPassword.textContent = 'Las contraseñas no coinciden.';
+      errorRegPassword.classList.remove('hidden');
+      ok = false;
+    }
+
+    return ok;
+  }
+
+  formLogin.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validarLoginCliente()) return;
+
+    const payload = {
+      telefono: loginTelefono.value.trim(),
+      password: loginPassword.value
+    };
+
+    try {
+      setStatus('Verificando credenciales...', '');
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setStatus(data.mensaje || 'Error al iniciar sesión.', 'error');
+        return;
+      }
+
+      // "Session" simple usando localStorage
+      localStorage.setItem('clienteTelefono', data.cliente.telefono);
+      localStorage.setItem('clienteNombre', data.cliente.nombre);
+      setStatus('Login correcto. Redirigiendo...', 'ok');
+
+      // Aquí rediriges a la home o a la página de tienda/carrito
+      // Por ejemplo:
+      // window.location.href = '/';
+    } catch (err) {
+      console.error(err);
+      setStatus('Error de comunicación con el servidor.', 'error');
+    }
+  });
+
+  formRegistro.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!validarRegistroCliente()) return;
+
+    const payload = {
+      nombre: regNombre.value.trim(),
+      telefono: regTelefono.value.trim(),
+      correo: regCorreo.value.trim(),
+      password: regPassword.value
+    };
+
+    try {
+      setStatus('Creando cuenta...', '');
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        const msg = data.mensaje || (data.errores ? data.errores.join(' ') : 'Error al registrar.');
+        setStatus(msg, 'error');
+        return;
+      }
+
+      setStatus(data.mensaje || 'Cuenta creada correctamente.', 'ok');
+
+      // Si quieres, puedes pasar directo a login rellenando los campos:
+      loginTelefono.value = regTelefono.value.trim();
+      loginPassword.value = '';
+      regNombre.value = '';
+      regTelefono.value = '';
+      regCorreo.value = '';
+      regPassword.value = '';
+      regPassword2.value = '';
+
+      irLogin();
+    } catch (err) {
+      console.error(err);
+      setStatus('Error de comunicación con el servidor.', 'error');
+    }
+  });
+</script>
+</body>
+</html>
