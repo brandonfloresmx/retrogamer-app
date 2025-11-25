@@ -56,8 +56,8 @@ body {
 }
 
 .rg-logo-img {
-  max-width: 200%;
-  max-height: 200%;
+  max-width: 150%;
+  max-height: 150%;
   object-fit: contain;
 }
 
