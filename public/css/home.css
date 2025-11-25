@@ -244,6 +244,7 @@ body {
   padding: 4px;
   gap: 4px;
   margin-bottom: 16px;
+  
 }
 
 .tab {
@@ -325,8 +326,8 @@ body {
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  background: linear-gradient(135deg, #f97316, #facc15);
-  color: #111827;
+  background: #e30613;
+  color: white;
   display: inline-flex;
   align-items: center;
   justify-content: center;
