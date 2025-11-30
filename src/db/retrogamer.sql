@@ -27,6 +27,7 @@ CREATE TABLE articulo (
   codigo VARCHAR(50)  NOT NULL,
   nombre VARCHAR(150) NOT NULL,
   descripcion TEXT NULL,
+  imagen_url VARCHAR(255) NULL,
   precio DECIMAL(10,2) NOT NULL CHECK (precio >= 0),
   existencia INT NOT NULL DEFAULT 0 CHECK (existencia >= 0),
   categoria_id INT UNSIGNED NOT NULL,
@@ -184,6 +185,17 @@ CREATE TABLE movimiento_inventario (
     ON UPDATE CASCADE
     ON DELETE RESTRICT
 ) ENGINE=InnoDB;
+
+CREATE TABLE admin_user (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  usuario VARCHAR(50) NOT NULL UNIQUE,
+  password CHAR(32) NOT NULL,                
+  nombre   VARCHAR(100) NOT NULL,
+  creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+INSERT INTO admin_user (usuario, password, nombre)
+VALUES ('admin', MD5('retrogamer'), 'Administrador principal');
 
 DROP USER IF EXISTS 'retrogamer'@'localhost';
 CREATE USER 'retrogamer'@'localhost' IDENTIFIED WITH mysql_native_password BY 'retrogamer2025';

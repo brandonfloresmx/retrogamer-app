@@ -1,138 +1,189 @@
-# 📄 Proyecto Retrogamer – README
+# 🕹️ RetroGamer 
 
-Este documento explica cómo instalar las dependencias, crear la base de datos y ejecutar la aplicación correctamente.
+Este proyecto es una aplicación web desarrollada con **Node.js, Express, MySQL y JavaScript Vanilla**.
+Incluye:
 
----
+* 🛍️ **Frontend Storefront** (tienda para usuarios)
+* 🛠️ **Panel de administración** con autenticación
+* 📦 CRUD completos:
 
-## ✅ 1️⃣ Requisitos previos
-
-Antes de iniciar, debes tener instalado:
-
-| Herramienta | Versión recomendada |
-|------------|-------------------|
-| **Node.js** | 18 o superior |
-| **MySQL / MariaDB** | Incluido en XAMPP |
-| **Git** *(opcional)* | Última versión |
-
-Asegúrate de tener **MySQL en ejecución** en XAMPP (puerto 3306 por defecto).
+  * Clientes
+  * Categorías y subcategorías
+  * Productos (con subida de imágenes)
+* 🧪 Tests automatizados con Jest + Supertest
+* 🗃️ Base de datos estructurada con relaciones reales (carrito, pedidos, inventario)
 
 ---
 
-## ✅ 2️⃣ Instalar dependencias del proyecto
+## 🚀 Características principales
 
-Ubícate dentro de la carpeta del proyecto:
+| Módulo                | Funciones                                                    | Estado         |
+| --------------------- | ------------------------------------------------------------ | -------------- |
+| 🛒 Storefront         | Registro/Login, carrito, navegación                          | ✔ Implementado |
+| 🔐 Admin Login        | Sesión con `express-session` y protección con middleware     | ✔ Implementado |
+| 👥 Clientes CRUD      | Crear, listar, actualizar, eliminar                          | ✔              |
+| 🏷️ Categorías CRUD   | Jerarquía padre/hijo, slug automático, contador de productos | ✔              |
+| 🎮 Productos CRUD     | Imagen, precio, existencia, categorías dinámicas             | ✔              |
+| 🧪 Testing            | Automatizado para todos los CRUD usando Jest + Supertest     | ✔              |
+| 📂 Subida de imágenes | Con Multer (carpeta `/public/uploads`)                       | ✔              |
+
+---
+
+## ⚙️ Tecnologías utilizadas
+
+* **Backend**
+
+  * Node.js
+  * Express
+  * Express-session
+  * MySQL2
+  * Multer
+
+* **Frontend**
+
+  * HTML, CSS, JavaScript Vanilla
+  * Diseño responsivo estilo dashboard
+
+* **Database**
+
+  * MySQL
+  * Relacionado con claves foráneas, triggers básicos opcionales
+
+* **Testing**
+
+  * Jest
+  * Supertest
+
+---
+
+## 📁 Estructura del proyecto
+
+```
+📦 Proyecto
+├── app.js
+├── package.json
+├── package-lock.json
+├── public/
+│   ├── index.html
+│   ├── admin.html
+│   ├── login-admin.html
+│   └── uploads/   ← imágenes (ignorada por git)
+│       └── .gitkeep
+├── src/
+│   ├── controllers/
+│   ├── routes/
+│   ├── middleware/
+│   └── db/pool.js
+└── tests/
+    ├── clientes.test.js
+    ├── articulos.test.js
+    └── categorias.test.js
+```
+
+---
+
+## 🧰 Requisitos
+
+* Node.js v16+
+* MySQL 8+
+* npm
+
+---
+
+## 🛠️ Instalación y configuración
+
+### 1️⃣ Instalar dependencias
 
 ```bash
-cd C:\ruta\a\tu\proyecto
 npm install
 ```
 
-Este comando instalará todas las dependencias definidas en `package.json` automáticamente ✅  
-Por si necesitas instalarlas una por una, aquí están los comandos:
+### 2️⃣ Crear base de datos
 
-```bash
-npm install express                # Servidor web
-npm install express-myconnection   # Conexión MySQL + Express
-npm install mysql                  # Cliente MySQL
-npm install morgan                 # Logger HTTP
-npm install ejs                    # Motor de vistas
-```
-
-🍀 (Opcional para desarrollo)
-```bash
-npm install -D nodemon             # Reinicio automático del servidor
-```
-
-> Si instalas nodemon, puedes agregar scripts en package.json:
-```json
-"scripts": {
-  "start": "node app.js",
-  "dev": "nodemon app.js"
-}
-```
-
----
-
-## ✅ 3️⃣ Crear Base de Datos
-
-Ejecutar el script SQL incluido en `/db/script.sql`:
-
-```powershell
-cd C:\xampp\mysql\bin
-.\mysql -u root -p < C:\ruta\a\tu\proyecto\db\script.sql
-```
-
-✅ Esto creará la base **db_retrogamer** junto con todas sus tablas
-
----
-
-## ✅ 4️⃣ Crear usuario para conectar la app
-
-Puedes ejecutar manualmente este SQL o agregarlo al final del script de la base:
+Ejecuta el archivo SQL incluido en `/db` o el script del README:
 
 ```sql
-CREATE USER IF NOT EXISTS 'retrogamer'@'localhost' IDENTIFIED BY 'retro';
-GRANT ALL PRIVILEGES ON db_retrogamer.* TO 'retrogamer'@'localhost';
-FLUSH PRIVILEGES;
+SOURCE retrogamer.sql;
 ```
 
----
+Esto también creará un usuario MySQL:
 
-## ✅ 5️⃣ Configuración de conexión en la app
-
-Ya está configurado en `app.js`, pero debe coincidir con MySQL:
-
-```js
-app.use(myConnection(mysql, {
-  host: 'localhost',
-  user: 'retrogamer',
-  password: 'retro',
-  port: 3306,
-  database: 'db_retrogamer'
-}, 'pool'));
+```
+usuario: retrogamer
+password: retrogamer2025
 ```
 
-Si tu MySQL usa otro puerto (p. ej. 3307), cámbialo ahí ✅
+### 3️⃣ Configurar variables opcionales (.env)
 
----
+> (Opcional pero recomendado)
 
-## ✅ 6️⃣ Ejecutar el servidor
+```
+DB_HOST=localhost
+DB_USER=retrogamer
+DB_PASS=retrogamer2025
+DB_NAME=retrogamer
+SESSION_SECRET=retrogamer-super-secreto-2025
+```
 
-Modo normal:
+### 4️⃣ Ejecutar el servidor
+
 ```bash
 npm start
 ```
 
-Modo desarrollo (si instalaste nodemon):
-```bash
-npm run dev
+Servidor disponible en:
+
+```
+http://localhost:3000
 ```
 
-Abrir en navegador:
+### 5️⃣ Usuario administrador
+
+El SQL incluye un admin por defecto:
+
+| Usuario | Contraseña   |
+| ------- | ------------ |
+| `admin` | `retrogamer` |
+
+Acceso al panel:
+
 ```
-http://localhost:8080/
+http://localhost:3000/admin
 ```
 
 ---
 
-## 📌 Estructura del Proyecto
+## 🧪 Ejecutar pruebas
 
-APP/
- ├─ controllers/          # Controladores de lógica
- ├─ db/
- │   ├─ diseño.mwb        # Modelo ER del proyecto
- │   └─ script.sql        # Script para crear la base de datos
- ├─ node_modules/         # Paquetes instalados con npm (NO se sube a Git)
- ├─ src/                  # (Reservado para futuras funciones o recursos)
- ├─ views/                # Archivos de vista (si usas EJS)
- ├─ public/               # Archivos estáticos (img, css, js cliente)
- ├─ routes/               # Rutas de Express
- ├─ .gitignore            # Archivos que se ignoran en Git
- ├─ app.js                # Punto de entrada de la aplicación
- ├─ create.bat            # Script opcional para creación rápida de entorno (NO se sube a Git)
- ├─ package.json          # Configuración del proyecto y dependencias
- ├─ package-lock.json     # Versión exacta instalada de dependencias
- └─ Readme.md             # Instrucciones del proyecto
+```bash
+npm test
+```
 
-## 📌 Repositorio del proyecto
-https://github.com/brandonfloresmx/retrogamer-app
+Ejecuta pruebas automatizadas para:
+
+* Clientes
+* Categorías
+* Productos
+
+---
+
+## 📦 Carpeta de imágenes
+
+Las imágenes cargadas se guardan en:
+
+```
+public/uploads
+```
+
+Esta carpeta está incluida en `.gitignore`, excepto `.gitkeep`, para mantener el folder sin almacenar archivos reales.
+
+---
+
+## 🔒 Seguridad implementada
+
+* Middleware `requireAdmin` para restringir rutas
+* Sesiones seguras mediante express-session
+* Contraseñas admin almacenadas con hash MD5 (mejorable a bcrypt en producción)
+
+
+

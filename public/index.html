@@ -1,47 +1,36 @@
+<!-- public/index.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>RetroGamer · Tienda de videojuegos</title>
+  <title>RetroGamer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Iconos Google -->
-  <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;600&display=swap">
-
-  <!-- Tu CSS -->
-  <link rel="stylesheet" href="/css/home.css">
-  <!-- JS del home -->
+  <link rel="stylesheet" href="/css/home.css"/>
   <script defer src="/js/home.js"></script>
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+  />
 </head>
 <body>
-  <!-- HEADER -->
   <header class="rg-header">
     <div class="rg-header-top">
-      
-
-      <!-- Logo -->
       <div class="rg-logo-box">
         <img src="/img/logo-1.png" alt="RetroGamer" class="rg-logo-img">
       </div>
 
-      <!-- Búsqueda -->
       <form class="rg-search" autocomplete="off">
         <span class="material-symbols-outlined">search</span>
-        <input type="search"
-               id="headerSearch"
-               placeholder="¿Qué quieres comprar?">
+        <input type="search" id="headerSearch" placeholder="¿Qué quieres comprar?">
       </form>
 
-      <!-- Cuenta / Login -->
-            <!-- Cuenta / Login con dropdown -->
       <div class="rg-account-wrapper">
         <button class="rg-icon-btn" id="btnAccount" type="button">
           <span class="material-symbols-outlined">person</span>
           <span id="accountLabel">Iniciar sesión</span>
         </button>
 
-        <!-- Menú desplegable de cuenta (solo visible cuando hay sesión) -->
         <div class="rg-account-menu hidden" id="accountMenu">
           <button type="button" id="accountMenuPerfil">
             <span class="material-symbols-outlined">settings</span>
@@ -54,7 +43,6 @@
         </div>
       </div>
 
-      <!-- Carrito -->
       <button class="rg-icon-btn" id="btnCart" type="button">
         <span class="material-symbols-outlined">shopping_cart</span>
         <span>Carrito</span>
@@ -69,13 +57,13 @@
     </nav>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
   <main>
-    <!-- HOME NORMAL -->
-    <section id="homeSection" class="rg-main-placeholder">
+    <!-- SECCIÓN HOME -->
+    <section id="homeSection" class="rg-main-home">
+      <!-- Aquí tu contenido de la home: carrusel, productos, etc. -->
     </section>
 
-    <!-- VISTA CUENTA DENTRO DEL MISMO INDEX -->
+    <!-- SECCIÓN CUENTA (LO QUE ANTES ERA CUENTA.EJS) -->
     <section id="cuentaSection" class="cuenta-wrapper hidden">
       <div class="cuenta-layout">
         <!-- Sidebar -->
@@ -164,95 +152,95 @@
     </section>
   </main>
 
-  <!-- OVERLAY LOGIN / REGISTRO -->
-  <div class="rg-overlay hidden" id="loginOverlay">
-    <div class="rg-overlay-backdrop" id="overlayBackdrop"></div>
+  <!-- MODAL DE LOGIN -->
+  <div id="loginOverlay" class="login-overlay hidden">
+    <div class="rg-overlay">
+      <div class="rg-overlay-backdrop" id="overlayBackdrop"></div>
 
-    <div class="rg-login-wrapper">
-      <button class="rg-close-btn" id="btnCerrarLogin" type="button">
-        <span class="material-symbols-outlined">close</span>
-      </button>
+      <div class="rg-login-wrapper">
+        <button class="rg-close-btn" id="btnCerrarLogin" type="button">
+          <span class="material-symbols-outlined">close</span>
+        </button>
 
-      <div class="card" id="loginCard">
-        <div class="logo">
-          <img src="/img/logo.png" class="logo-img" alt="RetroGamer">
-          <div class="logo-text">
-            <span>RETROGAMER</span>
-            <span>Tienda de videojuegos</span>
+        <div class="card" id="loginCard">
+          <div class="logo">
+            <img src="/img/logo.png" class="logo-img" alt="RetroGamer">
+            <div class="logo-text">
+              <span>RETROGAMER</span>
+              <span>Tienda de videojuegos</span>
+            </div>
           </div>
+
+          <div class="tabs">
+            <button type="button" class="tab active" id="tabLogin">
+              <span class="material-symbols-outlined">login</span>
+              Iniciar sesión
+            </button>
+            <button type="button" class="tab" id="tabRegistro">
+              <span class="material-symbols-outlined">person_add</span>
+              Crear cuenta
+            </button>
+          </div>
+
+          <h1 class="title" id="tituloForm">Bienvenido de vuelta</h1>
+          <p class="subtitle" id="subtituloForm">
+            Ingresa con tu número de celular para continuar tu compra.
+          </p>
+
+          <!-- FORM LOGIN -->
+          <form id="formLogin">
+            <label for="loginTelefono">Teléfono (10 dígitos)</label>
+            <input type="text" id="loginTelefono" maxlength="10" placeholder="Ej. 9612345678">
+            <div class="field-error" id="errorLoginTelefono"></div>
+
+            <label for="loginPassword">Contraseña</label>
+            <input type="password" id="loginPassword" placeholder="Tu contraseña">
+            <div class="field-error" id="errorLoginPassword"></div>
+
+            <button type="submit" class="btn-primary">
+              <span class="material-symbols-outlined">login</span>
+              Iniciar sesión
+            </button>
+          </form>
+
+          <!-- FORM REGISTRO -->
+          <form id="formRegistro" class="hidden">
+            <label for="regNombre">Nombre completo</label>
+            <input type="text" id="regNombre" placeholder="Nombre completo">
+            <div class="field-error" id="errorRegNombre"></div>
+
+            <label for="regTelefono">Teléfono (10 dígitos)</label>
+            <input type="text" id="regTelefono" maxlength="10" placeholder="Ej. 9612345678">
+            <div class="field-error" id="errorRegTelefono"></div>
+
+            <label for="regCorreo">Correo electrónico</label>
+            <input type="email" id="regCorreo" placeholder="correo@ejemplo.com">
+            <div class="field-error" id="errorRegCorreo"></div>
+
+            <label for="regPassword">Contraseña</label>
+            <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres">
+            <div class="field-error" id="errorRegPassword"></div>
+
+            <label for="regPassword2">Repetir contraseña</label>
+            <input type="password" id="regPassword2" placeholder="Repite la contraseña">
+            <div class="field-error"></div>
+
+            <button type="submit" class="btn-primary">
+              <span class="material-symbols-outlined">person_add</span>
+              Crear cuenta
+            </button>
+          </form>
+
+          <div class="switch-text" id="switchTexto">
+            ¿No tienes cuenta?
+            <button type="button" id="btnIrRegistro">Crear una cuenta</button>
+          </div>
+
+          <div class="status" id="mensaje"></div>
         </div>
-
-        <div class="tabs">
-          <button type="button" class="tab active" id="tabLogin">
-            <span class="material-symbols-outlined">login</span>
-            Iniciar sesión
-          </button>
-          <button type="button" class="tab" id="tabRegistro">
-            <span class="material-symbols-outlined">person_add</span>
-            Crear cuenta
-          </button>
-        </div>
-
-        <h1 class="title" id="tituloForm">Bienvenido de vuelta</h1>
-        <p class="subtitle" id="subtituloForm">
-          Ingresa con tu número de celular para continuar tu compra.
-        </p>
-
-        <!-- FORM LOGIN -->
-        <form id="formLogin">
-          <label for="loginTelefono">Teléfono (10 dígitos)</label>
-          <input type="text" id="loginTelefono" maxlength="10" placeholder="Ej. 9612345678">
-          <div class="field-error" id="errorLoginTelefono"></div>
-
-          <label for="loginPassword">Contraseña</label>
-          <input type="password" id="loginPassword" placeholder="Tu contraseña">
-          <div class="field-error" id="errorLoginPassword"></div>
-
-          <button type="submit" class="btn-primary">
-            <span class="material-symbols-outlined">login</span>
-            Iniciar sesión
-          </button>
-        </form>
-
-        <!-- FORM REGISTRO -->
-        <form id="formRegistro" class="hidden">
-          <label for="regNombre">Nombre completo</label>
-          <input type="text" id="regNombre" placeholder="Nombre completo">
-          <div class="field-error" id="errorRegNombre"></div>
-
-          <label for="regTelefono">Teléfono (10 dígitos)</label>
-          <input type="text" id="regTelefono" maxlength="10" placeholder="Ej. 9612345678">
-          <div class="field-error" id="errorRegTelefono"></div>
-
-          <label for="regCorreo">Correo electrónico</label>
-          <input type="email" id="regCorreo" placeholder="correo@ejemplo.com">
-          <div class="field-error" id="errorRegCorreo"></div>
-
-          <label for="regPassword">Contraseña</label>
-          <input type="password" id="regPassword" placeholder="Mínimo 8 caracteres">
-          <div class="field-error" id="errorRegPassword"></div>
-
-          <label for="regPassword2">Repetir contraseña</label>
-          <input type="password" id="regPassword2" placeholder="Repite la contraseña">
-          <div class="field-error"></div>
-
-          <button type="submit" class="btn-primary">
-            <span class="material-symbols-outlined">person_add</span>
-            Crear cuenta
-          </button>
-        </form>
-
-        <div class="switch-text" id="switchTexto">
-          ¿No tienes cuenta?
-          <button type="button" id="btnIrRegistro">Crear una cuenta</button>
-        </div>
-
-        <div class="status" id="mensaje"></div>
       </div>
     </div>
   </div>
 </body>
 </html>
-
-
 

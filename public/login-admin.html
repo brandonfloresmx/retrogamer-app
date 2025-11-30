@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>RetroGamer · Admin Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #0f172a;
+      --card: rgba(15,23,42,0.9);
+      --accent: #38bdf8;
+      --accent-strong: #0ea5e9;
+      --danger: #f97373;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: #1f2937;
+      --radius: 18px;
+      --shadow: 0 25px 60px rgba(0,0,0,0.7);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #020617;
+      color: var(--text);
+      padding: 16px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border-radius: var(--radius);
+      border: 1px solid rgba(148,163,184,0.3);
+      box-shadow: var(--shadow);
+      padding: 22px 22px 20px;
+      backdrop-filter: blur(18px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      background:
+        radial-gradient(circle at 0 0, rgba(56,189,248,0.25), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(129,140,248,0.18), transparent 55%);
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .logo-img {
+      width: 55px;
+      height: 42px;
+      object-fit: cover;
+    }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-text span:first-child {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .logo-text span:last-child {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .title {
+      font-size: 1.3rem;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    form label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    form input {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,0.9);
+      color: var(--text);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s, background 0.15s;
+      margin-bottom: 8px;
+    }
+
+    form input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.55);
+      background: rgba(15,23,42,1);
+    }
+
+    .btn-primary {
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      padding: 9px 12px;
+      margin-top: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--accent-strong), #22c1c3);
+      color: #0b1120;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 16px 30px rgba(8,47,73,0.8);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.97);
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      min-height: 20px;
+      text-align: center;
+    }
+
+    .status.error {
+      color: var(--danger);
+    }
+
+    .status.ok {
+      color: #4ade80;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <img src="/img/logo.png" class="logo-img" alt="RetroGamer">
+    <div class="logo-text">
+      <span>RETROGAMER</span>
+      <span>Panel de administración</span>
+    </div>
+  </div>
+
+  <h1 class="title">Iniciar sesión</h1>
+  <p class="subtitle">
+    Ingresa con tus credenciales de administrador.
+  </p>
+
+  <form action="/admin/login" method="POST" autocomplete="off">
+    <label for="usuario">Usuario</label>
+    <input type="text" id="usuario" name="usuario" placeholder="Ej. admin" required />
+
+    <label for="password">Contraseña</label>
+    <input type="password" id="password" name="password" placeholder="Tu contraseña" required />
+
+    <button type="submit" class="btn-primary">
+      <span>Entrar</span>
+      <span class="material-symbols-outlined">login</span>
+    </button>
+  </form>
+</div>
+</body>
+</html>

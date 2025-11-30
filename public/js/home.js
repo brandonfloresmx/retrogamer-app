@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ====== SECCIONES PRINCIPALES ======
   const homeSection   = document.getElementById('homeSection');
-  const cuentaSection = document.getElementById('cuentaSection');
+  const cuentaSection = document.getElementById('cuentaSection'); // ahora SÍ existe en la misma página
 
   // Datos de la sección cuenta
   const saludoNombre  = document.getElementById('saludoNombre');
@@ -141,10 +141,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (tabLogin)   tabLogin.addEventListener('click', irLogin);
   if (tabRegistro)tabRegistro.addEventListener('click', irRegistro);
 
+  // ====== HOME / CUENTA (SPA falso: misma página) ======
   function mostrarHome() {
     if (homeSection)   homeSection.classList.remove('hidden');
     if (cuentaSection) cuentaSection.classList.add('hidden');
     if (linkInicio)    linkInicio.classList.add('rg-nav-link-active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function mostrarCuenta() {
@@ -152,11 +154,13 @@ document.addEventListener('DOMContentLoaded', () => {
       abrirLogin();
       return;
     }
-    pintarCuenta();
+
     if (homeSection)   homeSection.classList.add('hidden');
     if (cuentaSection) cuentaSection.classList.remove('hidden');
     if (linkInicio)    linkInicio.classList.remove('rg-nav-link-active');
-    window.scrollTo({ top: cuentaSection.offsetTop - 80, behavior: 'smooth' });
+
+    pintarCuenta();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   function actualizarHeaderCuenta() {
@@ -178,8 +182,8 @@ document.addEventListener('DOMContentLoaded', () => {
         partes.length > 1 ? partes.slice(1).join(' ') : '-';
     }
 
-    if (datoEmail)   datoEmail.textContent    = clienteActual.correo || '-';
-    if (datoTelefono)datoTelefono.textContent = clienteActual.telefono || '-';
+    if (datoEmail)    datoEmail.textContent    = clienteActual.correo || '-';
+    if (datoTelefono) datoTelefono.textContent = clienteActual.telefono || '-';
   }
 
   // ====== ACCOUNT MENU (DROPDOWN) ======
@@ -320,8 +324,10 @@ document.addEventListener('DOMContentLoaded', () => {
     isLogged = false;
     clienteActual = null;
     actualizarHeaderCuenta();
-    mostrarHome();
     cerrarAccountMenu();
+
+    // En SPA siempre regresamos a la vista de inicio
+    mostrarHome();
   }
 
   // ====== SUBMITS ======
@@ -355,10 +361,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await actualizarSesionDesdeServidor();
 
-        // Cambiado: solo cerrar modal, NO mostrar perfil automático
+        // No cambiamos de vista automáticamente, solo cerramos el modal
         setTimeout(() => {
           cerrarLogin();
-          // Nos quedamos en la sección donde estaba el usuario (home, carrito, etc.)
         }, 500);
       } catch (err) {
         console.error(err);
@@ -432,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
     accountMenuPerfil.addEventListener('click', (e) => {
       e.stopPropagation();
       cerrarAccountMenu();
-      mostrarCuenta();
+      mostrarCuenta(); // ahora SOLO cambia secciones, sin redirecciones
     });
   }
 
@@ -471,17 +476,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (linkInicio) {
     linkInicio.addEventListener('click', (e) => {
       e.preventDefault();
-      mostrarHome();
+      mostrarHome(); // siempre, ya no hay /cuenta ni otra página
     });
   }
 
   // ====== INIT ======
   (async function init() {
     await actualizarSesionDesdeServidor();
+    // Siempre arrancamos mostrando el home en la SPA
     mostrarHome();
   })();
 });
-
-
-
-
