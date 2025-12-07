@@ -67,7 +67,7 @@ CREATE TABLE carrito (
     FOREIGN KEY (cliente_tel) REFERENCES cliente(telefono)
     ON UPDATE CASCADE
     ON DELETE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE carrito_detalle (
   cliente_tel CHAR(10) NOT NULL,
@@ -87,7 +87,7 @@ CREATE TABLE carrito_detalle (
     FOREIGN KEY (articulo_id) REFERENCES articulo(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE pedido (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -103,7 +103,7 @@ CREATE TABLE pedido (
     FOREIGN KEY (cliente_tel) REFERENCES cliente(telefono)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE pedido_detalle (
   pedido_id  INT UNSIGNED NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE pedido_detalle (
     FOREIGN KEY (articulo_id) REFERENCES articulo(id)
     ON UPDATE CASCADE
     ON DELETE RESTRICT
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS direccion (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -246,6 +246,12 @@ LOCK TABLES `articulo` WRITE;
 /*!40000 ALTER TABLE `articulo` DISABLE KEYS */;
 INSERT INTO `articulo` VALUES (1,'ART-00001','Gran Turismo 5','Te traemos la experiencia de conduccion virtual definitiva, con la ultima tecnologia y juego multijugador online.','https://i.ibb.co/TqkZNKPh/gt5.jpg',200.00,48,5,'2025-12-06 13:49:06','2025-12-06 17:23:01'),(2,'ART-00002','God Of War 2','La historia recoge donde los jugadores finalmente dejaron con Kratos. Sentado en su trono en el Olimpo, Kratos, el Guerrero una vez mortal se ha convertido en una amenaza mucho peor que su predecesor Ares, haya tenido. Kratos es un Dios cruel, cuya ira ataca a cualquiera que se cruza en su camino o la ruta de su amada Esparta.','https://i.ibb.co/HTJvmFH8/gow2.jpg',550.00,28,4,'2025-12-06 13:50:55','2025-12-06 18:32:51'),(3,'ART-00003','Legend Of Zelda: Ocarina Of Time','Remake del mítico The Legend of Zelda: Ocarina of Time para Nintendo 64, que se estrena en 3DS mejorando los gráficos e incluyendo pequeños avances jugables.','https://i.ibb.co/QFTbGLgf/lozocarina.jpg',600.00,38,9,'2025-12-06 13:52:50','2025-12-06 17:23:01'),(4,'ART-00004','Uncharted 3 Drake\'s Deception','UNCHARTED 3: La traición de Drake combinará la narración de la trama con dramáticas secuencias de acción y un ritmo trepidante, lo que te permitirá vivir una experiencia cinemática interactiva que difumina los límites entre los juegos y las películas de Hollywood. Nuevas ubicaciones, nuevos desafíos y entornos detallados al milímetro.','https://i.ibb.co/hxMdSdL5/uncharted3.jpg',80.00,58,5,'2025-12-06 16:29:34','2025-12-06 18:20:27'),(5,'ART-00005','Metal Gear Solid 4 Guns Of The Patriots','Metal Gear Solid 4: Guns of the Patriots es el primer juego de Kojima Productions para Playstation 3.','https://i.ibb.co/p6YQX2kg/mgs4.jpg',250.00,35,5,'2025-12-06 16:31:00','2025-12-06 16:31:00'),(6,'ART-00006','Dead Space 2','El ingeniero Isaac Clarke vuelve para otra sangrienta aventura en la secuela del aclamado Dead Space.','https://i.ibb.co/F4x21jBH/deadspace2.jpg',200.00,35,5,'2025-12-06 18:36:29','2025-12-06 18:36:29'),(7,'ART-00007','Uncharted 2 Among Thieves GOTY','El cazador de tesoros Nathan Drake vuelve en Uncharted 2: El Reino de los Ladrones, un impresionante juego de acción y aventura en tercera persona creado por el galardonado desarrollador Naughty Dog en exclusiva para Playstation 3.','https://i.ibb.co/3m134zM3/uncharted-2.jpg',80.00,24,5,'2025-12-06 18:37:36','2025-12-06 22:46:00'),(8,'ART-00008','Gran Turismo 4','La conducción virtual entra en una nueva era con el regreso del aplaudido Gran Turismo . Abarcando más de un siglo de la historia del motor, GT4 ofrece una cantidad de vehículos sin precedentes (más de 700 en total, incluidos 10 totalmente exclusivos para Europa), nuevas características increíbles y gráficos fotorrealistas que van más allá de tus sueños más salvajes.','https://i.ibb.co/XfCyyQrJ/gt4.jpg',300.00,15,4,'2025-12-06 18:41:55','2025-12-06 18:41:55'),(9,'ART-00009','Killzone','Una aventura epica inspirada en los escenarios belicos mas conocidos de los ultimos tiempos, Un potente arsenal de armas realistas, Unos espectaculares modos multijugador que permiten cmbatir online a otros jugadores o contra ellos.','https://i.ibb.co/xqLkFrYd/kz.jpg',250.00,15,4,'2025-12-06 18:56:49','2025-12-06 18:56:49'),(10,'ART-00010','Playstation 3 Slim 120GB','La PS3 Slim tiene un reproductor de discos Blu-Ray con todas las funciones para que las películas y los juegos se puedan disfrutar con una resolución de alta definición completa a través del puerto HDMI incorporado.','https://i.ibb.co/9RJDsqm/ps3.jpg',2900.00,10,10,'2025-12-06 23:33:30','2025-12-06 23:33:30'),(11,'ART-00011','Xbox 360 Slim 4GB',NULL,'https://i.ibb.co/LdP99Xx6/xbox360.jpg',2000.00,15,12,'2025-12-06 23:34:42','2025-12-06 23:34:42'),(12,'ART-00012','Nintendo 3DS XL Azul',NULL,'https://i.ibb.co/20WnFLSc/3ds.jpg',4200.00,35,11,'2025-12-06 23:36:01','2025-12-06 23:36:01'),(13,'ART-00013','Xbox360 Control Oficial',NULL,'https://i.ibb.co/RkVCbt4R/xbox360control.jpg',600.00,50,7,'2025-12-06 23:39:18','2025-12-06 23:39:18'),(14,'ART-00014','Control Dualshock3 Oficial',NULL,'https://i.ibb.co/R4cWDLFw/ps3control.jpg',800.00,25,8,'2025-12-06 23:40:50','2025-12-06 23:40:50');
 /*!40000 ALTER TABLE `articulo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+LOCK TABLES `banner` WRITE;
+/*!40000 ALTER TABLE `banner` DISABLE KEYS */;
+INSERT INTO `banner` VALUES (1,'Banner Promocional 1','https://i.ibb.co/4gf8cMJn/banner1.png',NULL,1,1,CURRENT_TIMESTAMP),(2,'Banner Promocional 2','https://i.ibb.co/zH443dtv/banner2.png',NULL,2,1,CURRENT_TIMESTAMP);
+/*!40000 ALTER TABLE `banner` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
