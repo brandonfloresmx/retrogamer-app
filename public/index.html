@@ -51,16 +51,297 @@
 
     <nav class="rg-header-bottom">
       <a href="#" class="rg-nav-link rg-nav-link-active" id="linkInicio">Inicio</a>
-      <a href="#" class="rg-nav-link">Juegos</a>
-      <a href="#" class="rg-nav-link">Consolas</a>
-      <a href="#" class="rg-nav-link">Accesorios</a>
+      <a href="#" class="rg-nav-link rg-categoria-link" data-categoria-slug="juegos">Juegos</a>
+      <a href="#" class="rg-nav-link rg-categoria-link" data-categoria-slug="consolas">Consolas</a>
+      <a href="#" class="rg-nav-link rg-categoria-link" data-categoria-slug="accesorios">Accesorios</a>
     </nav>
   </header>
 
   <main>
     <!-- SECCIÓN HOME -->
     <section id="homeSection" class="rg-main-home">
-      <!-- Aquí tu contenido de la home: carrusel, productos, etc. -->
+      <!-- Banner Carrusel -->
+      <div class="banner-carousel">
+        <div class="banner-slides" id="bannerSlides">
+          <!-- Los banners se cargarán dinámicamente aquí -->
+        </div>
+        <button class="banner-nav banner-nav-prev" id="bannerPrev">
+          <span class="material-symbols-outlined">chevron_left</span>
+        </button>
+        <button class="banner-nav banner-nav-next" id="bannerNext">
+          <span class="material-symbols-outlined">chevron_right</span>
+        </button>
+        <div class="banner-dots" id="bannerDots">
+          <!-- Los dots se generarán dinámicamente -->
+        </div>
+      </div>
+
+      <!-- Sección de productos -->
+      <div class="productos-section">
+        <div class="productos-header">
+          <h2 class="productos-titulo">Nuestros Productos</h2>
+          <p class="productos-subtitulo">Descubre los mejores juegos y consolas retro</p>
+        </div>
+        
+        <div class="productos-carousel">
+          <button class="productos-nav productos-nav-prev" id="productoPrev">
+            <span class="material-symbols-outlined">chevron_left</span>
+          </button>
+          <div class="productos-container" id="productosContainer">
+            <!-- Las cards de productos se cargarán dinámicamente aquí -->
+          </div>
+          <button class="productos-nav productos-nav-next" id="productoNext">
+            <span class="material-symbols-outlined">chevron_right</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN DE CATEGORÍA -->
+    <section id="categoriaSection" class="categoria-wrapper hidden">
+      <div class="categoria-container">
+        <button class="categoria-volver" id="btnVolverCategorias">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Volver
+        </button>
+        <h1 id="categoriaTitulo">Categoría</h1>
+        
+        <!-- Filtro de subcategorías -->
+        <div class="categoria-filtro" id="categoriaFiltroContainer"></div>
+        
+        <!-- Ordenamiento -->
+        <div class="categoria-ordenamiento">
+          <label for="selectOrdenamiento">Ordenar por:</label>
+          <select id="selectOrdenamiento" class="categoria-select">
+            <option value="populares">Los más populares</option>
+            <option value="precio-asc">Precio: Bajo - Alto</option>
+            <option value="precio-desc">Precio: Alto - Bajo</option>
+            <option value="nombre-asc">Nombre del producto: A - Z</option>
+            <option value="nombre-desc">Nombre del producto: Z - A</option>
+          </select>
+        </div>
+        
+        <!-- Grid de productos -->
+        <div class="productos-grid" id="productosCategoriaGrid"></div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN DETALLE DE PRODUCTO -->
+    <section id="detalleSection" class="detalle-wrapper hidden">
+      <div class="detalle-container">
+        <button class="detalle-volver" id="btnVolverHome">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Volver
+        </button>
+        
+        <div class="detalle-content">
+          <div class="detalle-imagen-box">
+            <img id="detalleImagen" src="" alt="" class="detalle-imagen">
+          </div>
+          
+          <div class="detalle-info">
+            <h1 class="detalle-nombre" id="detalleNombre">Nombre del producto</h1>
+            <p class="detalle-codigo" id="detalleCodigo">Código: XXX</p>
+            
+            <div class="detalle-precio-box">
+              <span class="detalle-precio" id="detallePrecio">$0.00</span>
+              <span class="detalle-existencia" id="detalleExistencia">En stock</span>
+            </div>
+            
+            <div class="detalle-descripcion">
+              <h3>Descripción</h3>
+              <p id="detalleDescripcion">Descripción del producto...</p>
+            </div>
+            
+            <div class="detalle-acciones">
+              <div class="detalle-cantidad">
+                <button type="button" class="cantidad-btn" id="btnRestarCantidad">-</button>
+                <input type="number" class="cantidad-input" id="inputCantidad" value="1" min="1">
+                <button type="button" class="cantidad-btn" id="btnSumarCantidad">+</button>
+              </div>
+              
+              <button type="button" class="btn-agregar-carrito" id="btnAgregarCarrito">
+                <span class="material-symbols-outlined">shopping_cart</span>
+                Agregar al carrito
+              </button>
+
+              <button type="button" class="btn-fav-detalle" id="btnFavDetalle">
+                <span class="material-symbols-outlined">favorite</span>
+                Guardar favorito
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN CARRITO -->
+    <section id="carritoSection" class="carrito-wrapper hidden">
+      <div class="carrito-container">
+        <button class="carrito-volver" id="btnVolverDelCarrito">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Volver
+        </button>
+
+        <h1 class="carrito-titulo">Tu carrito</h1>
+
+        <!-- Lista de items -->
+        <div class="carrito-items" id="carritoItems">
+          <!-- Items se renderizan aquí -->
+        </div>
+
+        <!-- Carrito vacío -->
+        <div class="carrito-vacio hidden" id="carritoVacio">
+          <span class="material-symbols-outlined">shopping_cart</span>
+          <p>Tu carrito está vacío</p>
+          <button type="button" class="btn-primary" id="btnVolverAlShopDesdeVacio">
+            Continuar comprando
+          </button>
+        </div>
+
+        <!-- Resumen -->
+        <div class="carrito-resumen" id="carritoResumen">
+          <div class="resumen-row resumen-total">
+            <span>Total:</span>
+            <span id="resumenTotal">$0.00</span>
+          </div>
+
+          <button type="button" class="btn-primary btn-checkout" id="btnCheckout">
+            Continuar a la caja
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN CHECKOUT -->
+    <section id="checkoutSection" class="checkout-wrapper hidden">
+      <div class="checkout-container">
+        <button class="checkout-volver" id="btnVolverDelCheckout">
+          <span class="material-symbols-outlined">arrow_back</span>
+          Volver al carrito
+        </button>
+
+        <h1 class="checkout-titulo">Finalizar compra</h1>
+
+        <div class="checkout-layout">
+          <!-- Formulario -->
+          <div class="checkout-form">
+            <div class="checkout-card">
+              <h2 class="checkout-card-titulo">Dirección de envío</h2>
+              <div class="form-group">
+                <label for="checkoutDireccionGuardada">Usar dirección guardada</label>
+                <select id="checkoutDireccionGuardada">
+                  <option value="">-- Selecciona --</option>
+                  <option value="nueva">Nueva dirección</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="checkoutCalle">Calle y número *</label>
+                <input type="text" id="checkoutCalle" placeholder="Ej. Av. Central 123">
+                <div class="field-error" id="errorCalle"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="checkoutColonia">Colonia *</label>
+                  <input type="text" id="checkoutColonia" placeholder="Ej. Centro">
+                  <div class="field-error" id="errorColonia"></div>
+                </div>
+                <div class="form-group">
+                  <label for="checkoutCP">Código Postal *</label>
+                  <input type="text" id="checkoutCP" maxlength="5" placeholder="29000">
+                  <div class="field-error" id="errorCP"></div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="checkoutCiudad">Ciudad *</label>
+                  <input type="text" id="checkoutCiudad" placeholder="Ej. Tuxtla Gutiérrez">
+                  <div class="field-error" id="errorCiudad"></div>
+                </div>
+                <div class="form-group">
+                  <label for="checkoutEstado">Estado *</label>
+                  <input type="text" id="checkoutEstado" placeholder="Ej. Chiapas">
+                  <div class="field-error" id="errorEstado"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="checkoutReferencias">Referencias</label>
+                <textarea id="checkoutReferencias" rows="2" placeholder="Ej. Casa blanca con portón verde"></textarea>
+              </div>
+            </div>
+
+            <div class="checkout-card">
+              <h2 class="checkout-card-titulo">Método de pago</h2>
+              <div class="form-group">
+                <label for="checkoutMetodoGuardado">Métodos guardados</label>
+                <select id="checkoutMetodoGuardado">
+                  <option value="">-- Selecciona --</option>
+                  <option value="nueva">Nuevo método</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="checkoutMetodoPago">Selecciona el método *</label>
+                <select id="checkoutMetodoPago">
+                  <option value="">-- Selecciona --</option>
+                  <option value="tarjeta">Tarjeta de crédito/débito</option>
+                </select>
+                <div class="field-error" id="errorMetodoPago"></div>
+              </div>
+              <div id="tarjetaFields" class="hidden">
+                <div class="form-group">
+                  <label for="checkoutNumeroTarjeta">Número de tarjeta *</label>
+                  <input type="text" id="checkoutNumeroTarjeta" maxlength="19" placeholder="1234 5678 9012 3456">
+                  <div class="field-error" id="errorNumeroTarjeta"></div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="checkoutVencimiento">Vencimiento *</label>
+                    <input type="text" id="checkoutVencimiento" maxlength="5" placeholder="MM/AA">
+                    <div class="field-error" id="errorVencimiento"></div>
+                  </div>
+                  <div class="form-group">
+                    <label for="checkoutCVV">CVV *</label>
+                    <input type="text" id="checkoutCVV" maxlength="3" placeholder="123">
+                    <div class="field-error" id="errorCVV"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resumen del pedido -->
+          <div class="checkout-resumen">
+            <div class="checkout-card">
+              <h2 class="checkout-card-titulo">Resumen del pedido</h2>
+              <div class="checkout-items-list" id="checkoutItemsList">
+                <!-- Items aquí -->
+              </div>
+              <div class="checkout-totales">
+                <div class="checkout-row">
+                  <span>Subtotal:</span>
+                  <span id="checkoutSubtotal">$0.00</span>
+                </div>
+                <div class="checkout-row">
+                  <span>Entrega:</span>
+                  <span id="checkoutEnvio">$0.00</span>
+                </div>
+                <div class="checkout-envio-gratis hidden" id="checkoutEnvioGratis">
+                  <span class="material-symbols-outlined">local_shipping</span>
+                  ¡Envío gratis! Pedido mayor a $1,200
+                </div>
+                <div class="checkout-row checkout-total">
+                  <span>Total:</span>
+                  <span id="checkoutTotal">$0.00</span>
+                </div>
+              </div>
+              <button type="button" class="btn-primary btn-confirmar-pedido" id="btnConfirmarPedido">
+                <span class="material-symbols-outlined">check_circle</span>
+                Confirmar y pagar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- SECCIÓN CUENTA (LO QUE ANTES ERA CUENTA.EJS) -->
@@ -77,21 +358,25 @@
           </div>
 
           <nav class="cuenta-menu">
-            <button type="button" class="cuenta-menu-item">
+            <button type="button" class="cuenta-menu-item" data-section="compras" id="menuCompras">
               <span class="material-symbols-outlined">shopping_bag</span>
               Tus compras
             </button>
-            <button type="button" class="cuenta-menu-item">
+            <button type="button" class="cuenta-menu-item" data-section="favoritos" id="menuFavoritos">
               <span class="material-symbols-outlined">favorite</span>
               Favoritos
             </button>
-            <button type="button" class="cuenta-menu-item cuenta-menu-item-activo">
+            <button type="button" class="cuenta-menu-item cuenta-menu-item-activo" data-section="perfil" id="menuPerfil">
               <span class="material-symbols-outlined">person</span>
               Tu perfil
             </button>
-            <button type="button" class="cuenta-menu-item">
+            <button type="button" class="cuenta-menu-item" data-section="direcciones" id="menuDirecciones">
               <span class="material-symbols-outlined">location_on</span>
               Tus direcciones
+            </button>
+            <button type="button" class="cuenta-menu-item" data-section="pagos" id="menuPagos">
+              <span class="material-symbols-outlined">credit_card</span>
+              Métodos de pago
             </button>
           </nav>
 
@@ -103,49 +388,154 @@
 
         <!-- Panel derecho -->
         <section class="cuenta-main">
-          <h1 class="cuenta-titulo">Tu perfil</h1>
+          <h1 class="cuenta-titulo" id="cuentaTitulo">Tu perfil</h1>
 
-          <article class="cuenta-card">
+          <article id="panelCompras" class="cuenta-card cuenta-panel hidden">
             <div class="cuenta-card-header">
-              <h2>Información personal</h2>
-              <button type="button" class="cuenta-card-edit">Editar</button>
+              <h2>Tus compras</h2>
             </div>
-            <div class="cuenta-card-body cuenta-grid-2">
-              <div>
-                <p class="cuenta-label">Nombre</p>
-                <p class="cuenta-valor" id="datoNombre">-</p>
+            <div class="cuenta-card-body" id="comprasLista">
+              <p class="cuenta-label">Cargando pedidos...</p>
+            </div>
+          </article>
+
+          <!-- Modal detalle pedido -->
+          <div id="modalDetallePedido" class="modal-overlay hidden">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 id="modalPedidoTitulo">Detalle del pedido</h2>
+                <button type="button" class="modal-close" id="btnCerrarModalPedido">
+                  <span class="material-symbols-outlined">close</span>
+                </button>
+              </div>
+              <div class="modal-body" id="modalPedidoBody">
+                <!-- Contenido dinámico -->
               </div>
             </div>
-          </article>
+          </div>
 
-          <article class="cuenta-card">
+          <article id="panelFavoritos" class="cuenta-card cuenta-panel hidden">
             <div class="cuenta-card-header">
-              <h2>Dirección de email</h2>
-              <button type="button" class="cuenta-card-edit">Editar</button>
+              <h2>Favoritos</h2>
             </div>
-            <div class="cuenta-card-body">
-              <p class="cuenta-label">Dirección de email</p>
-              <p class="cuenta-valor" id="datoEmail">-</p>
-            </div>
-          </article>
-
-          <article class="cuenta-card">
-            <div class="cuenta-card-header">
-              <h2>Número de contacto</h2>
-            </div>
-            <div class="cuenta-card-body">
-              <p class="cuenta-label">Número de contacto</p>
-              <p class="cuenta-valor" id="datoTelefono">-</p>
+            <div class="cuenta-card-body" id="favoritosLista">
+              <p class="cuenta-label">Aún no tienes favoritos.</p>
             </div>
           </article>
 
-          <article class="cuenta-card">
+          <article id="panelPerfil" class="cuenta-card cuenta-panel">
             <div class="cuenta-card-header">
-              <h2>Contraseña</h2>
+              <h2>Información personal</h2>
             </div>
-            <div class="cuenta-card-body">
-              <a href="#" class="cuenta-link">Restablecer contraseña</a>
+            <div class="cuenta-card-body cuenta-grid-2">
+              <div class="form-group">
+                <label for="perfilNombre">Nombre completo</label>
+                <input type="text" id="perfilNombre" placeholder="Tu nombre">
+                <div class="field-error" id="errorPerfilNombre"></div>
+              </div>
+              <div class="form-group">
+                <label for="perfilCorreo">Correo electrónico</label>
+                <input type="email" id="perfilCorreo" placeholder="correo@ejemplo.com">
+                <div class="field-error" id="errorPerfilCorreo"></div>
+              </div>
+              <div class="form-group">
+                <label>Teléfono</label>
+                <input type="text" id="perfilTelefono" disabled>
+              </div>
             </div>
+            <div class="cuenta-card-footer">
+              <button type="button" class="btn-primary" id="btnGuardarPerfil">Guardar cambios</button>
+            </div>
+          </article>
+
+          <article id="panelDirecciones" class="cuenta-card cuenta-panel hidden">
+            <div class="cuenta-card-header">
+              <h2>Tus direcciones</h2>
+            </div>
+            <div class="cuenta-card-body cuenta-grid-2">
+              <div class="form-group">
+                <label for="dirAlias">Alias</label>
+                <input type="text" id="dirAlias" placeholder="Casa, Oficina...">
+              </div>
+              <div class="form-group">
+                <label for="dirCalle">Calle y número *</label>
+                <input type="text" id="dirCalle">
+                <div class="field-error" id="errorDirCalle"></div>
+              </div>
+              <div class="form-group">
+                <label for="dirColonia">Colonia *</label>
+                <input type="text" id="dirColonia">
+                <div class="field-error" id="errorDirColonia"></div>
+              </div>
+              <div class="form-group">
+                <label for="dirCP">Código Postal *</label>
+                <input type="text" id="dirCP" maxlength="5">
+                <div class="field-error" id="errorDirCP"></div>
+              </div>
+              <div class="form-group">
+                <label for="dirCiudad">Ciudad *</label>
+                <input type="text" id="dirCiudad">
+                <div class="field-error" id="errorDirCiudad"></div>
+              </div>
+              <div class="form-group">
+                <label for="dirEstado">Estado *</label>
+                <input type="text" id="dirEstado">
+                <div class="field-error" id="errorDirEstado"></div>
+              </div>
+              <div class="form-group" style="grid-column: 1 / -1;">
+                <label for="dirReferencias">Referencias</label>
+                <textarea id="dirReferencias" rows="2"></textarea>
+              </div>
+              <label class="checkbox-row" style="grid-column: 1 / -1;">
+                <input type="checkbox" id="dirDefault"> Usar como predeterminada
+              </label>
+            </div>
+            <div class="cuenta-card-footer">
+              <button type="button" class="btn-primary" id="btnGuardarDireccion">Guardar dirección</button>
+              <button type="button" class="btn-secondary" id="btnCancelarDireccion">Cancelar</button>
+            </div>
+            <div class="cuenta-card-list" id="direccionesLista"></div>
+          </article>
+
+          <article id="panelPagos" class="cuenta-card cuenta-panel hidden">
+            <div class="cuenta-card-header">
+              <h2>Métodos de pago</h2>
+            </div>
+            <div class="cuenta-card-body cuenta-grid-2">
+              <div class="form-group">
+                <label for="pagoAlias">Alias</label>
+                <input type="text" id="pagoAlias" placeholder="Visa personal">
+              </div>
+              <div class="form-group">
+                <label for="pagoTipo">Tipo *</label>
+                <select id="pagoTipo">
+                  <option value="">-- Selecciona --</option>
+                  <option value="tarjeta">Tarjeta de crédito/débito</option>
+                </select>
+                <div class="field-error" id="errorPagoTipo"></div>
+              </div>
+              <div class="form-group">
+                <label for="pagoTitular">Titular *</label>
+                <input type="text" id="pagoTitular">
+                <div class="field-error" id="errorPagoTitular"></div>
+              </div>
+              <div class="form-group">
+                <label for="pagoNumero">Número de tarjeta</label>
+                <input type="text" id="pagoNumero" maxlength="19" placeholder="Solo si es tarjeta">
+              </div>
+              <div class="form-group">
+                <label for="pagoExpiracion">Vencimiento (MM/AA)</label>
+                <input type="text" id="pagoExpiracion" maxlength="5" placeholder="Solo tarjeta">
+              </div>
+              <label class="checkbox-row" style="grid-column: 1 / -1;">
+                <input type="checkbox" id="pagoDefault"> Usar como predeterminado
+              </label>
+            </div>
+            <div class="cuenta-card-footer">
+              <button type="button" class="btn-primary" id="btnGuardarPago">Guardar método</button>
+              <button type="button" class="btn-secondary" id="btnCancelarPago">Cancelar</button>
+            </div>
+            <div class="cuenta-card-list" id="pagosLista"></div>
           </article>
         </section>
       </div>

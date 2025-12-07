@@ -28,6 +28,11 @@ const upload = multer({
 });
 
 // CRUD
+// Rutas públicas (GET solamente)
+router.get('/public', articuloCtrl.listarArticulos);
+router.get('/public/:id', articuloCtrl.obtenerArticulo);
+
+// Rutas protegidas (admin)
 router.get('/', articuloCtrl.listarArticulos);
 router.get('/:id', articuloCtrl.obtenerArticulo);
 

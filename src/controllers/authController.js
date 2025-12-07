@@ -113,6 +113,50 @@ function me(req, res) {
   });
 }
 
+// ---------- PUT /api/auth/perfil ----------
+async function actualizarPerfil(req, res) {
+  if (!req.session || !req.session.cliente) {
+    return res.status(401).json({ mensaje: 'No autenticado' });
+  }
+
+  const { nombre, correo } = req.body || {};
+  const telefono = req.session.cliente.telefono;
+  const errores = [];
+
+  if (!nombre || !nombre.trim() || nombre.length > 150) {
+    errores.push('El nombre es obligatorio y debe tener máximo 150 caracteres.');
+  }
+
+  if (!correo || !regexCorreo.test(correo) || correo.length > 120) {
+    errores.push('El correo no es válido.');
+  }
+
+  if (errores.length > 0) {
+    return res.status(400).json({ errores });
+  }
+
+  try {
+    const [resultado] = await pool.query(
+      `UPDATE cliente SET nombre = ?, correo = ? WHERE telefono = ?`,
+      [nombre.trim(), correo.trim(), telefono]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ mensaje: 'Cliente no encontrado' });
+    }
+
+    req.session.cliente = { telefono, nombre: nombre.trim(), correo: correo.trim() };
+
+    res.json({ mensaje: 'Perfil actualizado correctamente', cliente: req.session.cliente });
+  } catch (err) {
+    console.error(err);
+    if (err.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ mensaje: 'El correo ya está en uso.' });
+    }
+    res.status(500).json({ mensaje: 'Error al actualizar el perfil' });
+  }
+}
+
 // ---------- POST /api/auth/logout ----------
 function logout(req, res) {
   if (!req.session) {
@@ -131,5 +175,6 @@ module.exports = {
   register,
   login,
   me,
-  logout
+  logout,
+  actualizarPerfil
 };

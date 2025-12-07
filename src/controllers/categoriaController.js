@@ -164,11 +164,81 @@ async function eliminarCategoria(req, res) {
   }
 }
 
+// GET /api/public/categorias/padre/:slug - Obtener categoría padre con sus hijas
+async function obtenerCategoriaPadreConHijas(req, res) {
+  const { slug } = req.params;
+  console.log('Buscando categoría padre con slug:', slug);
+  try {
+    // Obtener categoría padre
+    const [padreRows] = await pool.query(
+      `SELECT id, nombre, slug FROM categoria 
+       WHERE slug = ? AND parent_id IS NULL`,
+      [slug]
+    );
+    
+    console.log('Categoría padre encontrada:', padreRows);
+    
+    if (padreRows.length === 0) {
+      return res.status(404).json({ mensaje: 'Categoría no encontrada' });
+    }
+    
+    const padre = padreRows[0];
+    
+    // Obtener categorías hijas
+    const [hijasRows] = await pool.query(
+      `SELECT id, nombre, slug FROM categoria 
+       WHERE parent_id = ?
+       ORDER BY nombre`,
+      [padre.id]
+    );
+    
+    // Para cada hija, obtener sus productos
+    const hijasConProductos = await Promise.all(
+      hijasRows.map(async (hija) => {
+        const [productos] = await pool.query(
+          `SELECT id, codigo, nombre, imagen_url, precio, existencia 
+           FROM articulo 
+           WHERE categoria_id = ? 
+           ORDER BY nombre`,
+          [hija.id]
+        );
+        return {
+          ...hija,
+          productos
+        };
+      })
+    );
+    
+    // Si no hay hijas, obtener productos directamente de la categoría padre
+    let productosDirectos = [];
+    if (hijasRows.length === 0) {
+      const [prodDirectos] = await pool.query(
+        `SELECT id, codigo, nombre, imagen_url, precio, existencia 
+         FROM articulo 
+         WHERE categoria_id = ? 
+         ORDER BY nombre`,
+        [padre.id]
+      );
+      productosDirectos = prodDirectos;
+    }
+    
+    res.json({
+      categoria: padre,
+      subcategorias: hijasConProductos,
+      productosDirectos
+    });
+  } catch (err) {
+    logErrorCategoria(err);
+    res.status(500).json({ mensaje: 'Error al obtener categoría' });
+  }
+}
+
 module.exports = {
   listarCategorias,
   obtenerCategoria,
   crearCategoria,
   actualizarCategoria,
-  eliminarCategoria
+  eliminarCategoria,
+  obtenerCategoriaPadreConHijas
 };
 

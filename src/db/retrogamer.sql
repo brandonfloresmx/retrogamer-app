@@ -94,6 +94,9 @@ CREATE TABLE pedido (
   cliente_tel CHAR(10) NOT NULL,
   total DECIMAL(12,2) NOT NULL,
   estado ENUM('pendiente','pagado','enviado','entregado','cancelado') NOT NULL DEFAULT 'pendiente',
+  direccion_completa TEXT NULL,
+  metodo_pago VARCHAR(50) NULL,
+  costo_envio DECIMAL(10,2) NOT NULL DEFAULT 0,
   creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
   CONSTRAINT fk_pedido_cliente
@@ -122,26 +125,46 @@ CREATE TABLE pedido_detalle (
     ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
-CREATE TABLE direccion (
-  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS direccion (
+  id INT AUTO_INCREMENT PRIMARY KEY,
   cliente_tel CHAR(10) NOT NULL,
-  tipo ENUM('envio','facturacion') NOT NULL,
-  nombre_contacto VARCHAR(150) NOT NULL,
+  alias VARCHAR(100) DEFAULT 'Mi direccion',
   calle VARCHAR(150) NOT NULL,
-  numero VARCHAR(20) NOT NULL,
   colonia VARCHAR(120) NOT NULL,
+  cp CHAR(5) NOT NULL,
   ciudad VARCHAR(120) NOT NULL,
   estado VARCHAR(120) NOT NULL,
-  cp CHAR(5) NOT NULL,
-  pais VARCHAR(80) NOT NULL DEFAULT 'México',
-  telefono CHAR(10) NOT NULL,
-  creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  referencias VARCHAR(255) DEFAULT '',
+  es_default TINYINT(1) DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
   CONSTRAINT fk_dir_cliente
     FOREIGN KEY (cliente_tel) REFERENCES cliente(telefono)
     ON UPDATE CASCADE
     ON DELETE CASCADE
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS metodo_pago (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  cliente_tel CHAR(10) NOT NULL,
+  alias VARCHAR(100) DEFAULT 'Mi pago',
+  tipo VARCHAR(30) NOT NULL,
+  titular VARCHAR(150) NOT NULL,
+  ultimo4 VARCHAR(4) DEFAULT NULL,
+  expiracion VARCHAR(7) DEFAULT NULL,
+  es_default TINYINT(1) DEFAULT 0,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (cliente_tel) REFERENCES cliente(telefono) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS favorito (
+  cliente_tel CHAR(10) NOT NULL,
+  articulo_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (cliente_tel, articulo_id),
+  FOREIGN KEY (cliente_tel) REFERENCES cliente(telefono) ON DELETE CASCADE,
+  FOREIGN KEY (articulo_id) REFERENCES articulo(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE pago (
   id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -159,7 +182,7 @@ CREATE TABLE pago (
 ) ENGINE=InnoDB;
 
 CREATE TABLE envio (
-  pedido_id INT UNSIGNED PRIMARY KEY, -- PK y FK
+  pedido_id INT UNSIGNED PRIMARY KEY, 
   carrier VARCHAR(50) NOT NULL,
   guia VARCHAR(60) NOT NULL,
   costo DECIMAL(10,2) NOT NULL DEFAULT 0.00,
@@ -194,6 +217,17 @@ CREATE TABLE admin_user (
   creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
+CREATE TABLE banner (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  titulo VARCHAR(150) NULL,
+  imagen_url VARCHAR(255) NOT NULL,
+  link VARCHAR(255) NULL,
+  orden INT NOT NULL DEFAULT 0,
+  activo TINYINT(1) NOT NULL DEFAULT 1,
+  creado_en DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+
 INSERT INTO admin_user (usuario, password, nombre)
 VALUES ('admin', MD5('retrogamer'), 'Administrador principal');
 
@@ -201,6 +235,18 @@ DROP USER IF EXISTS 'retrogamer'@'localhost';
 CREATE USER 'retrogamer'@'localhost' IDENTIFIED WITH mysql_native_password BY 'retrogamer2025';
 GRANT SELECT, INSERT, UPDATE, DELETE ON retrogamer.* TO 'retrogamer'@'localhost';
 FLUSH PRIVILEGES;
+
+LOCK TABLES `categoria` WRITE;
+/*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
+INSERT INTO `categoria` VALUES (1,'Consolas','consolas',NULL),(2,'Juegos','juegos',NULL),(3,'Accesorios','accesorios',NULL),(4,'PS2','ps2',2),(5,'PS3','ps3',2),(7,'Xbox 360','xbox-360',3),(8,'PlayStation 3','playstation-3',3),(9,'3DS','3ds',2),(10,'PlayStation','playstation',1),(11,'Nintendo','nintendo',1),(12,'Xbox','xbox',1);
+/*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+LOCK TABLES `articulo` WRITE;
+/*!40000 ALTER TABLE `articulo` DISABLE KEYS */;
+INSERT INTO `articulo` VALUES (1,'ART-00001','Gran Turismo 5','Te traemos la experiencia de conduccion virtual definitiva, con la ultima tecnologia y juego multijugador online.','https://ibb.co/n8bTK3Qk',200.00,48,5,'2025-12-06 13:49:06','2025-12-06 17:23:01'),(2,'ART-00002','God Of War 2','La historia recoge donde los jugadores finalmente dejaron con Kratos. Sentado en su trono en el Olimpo, Kratos, el Guerrero una vez mortal se ha convertido en una amenaza mucho peor que su predecesor Ares, haya tenido. Kratos es un Dios cruel, cuya ira ataca a cualquiera que se cruza en su camino o la ruta de su amada Esparta.','https://ibb.co/RT5nLvDw',550.00,28,4,'2025-12-06 13:50:55','2025-12-06 18:32:51'),(3,'ART-00003','Legend Of Zelda: Ocarina Of Time','Remake del mítico The Legend of Zelda: Ocarina of Time para Nintendo 64, que se estrena en 3DS mejorando los gráficos e incluyendo pequeños avances jugables.','https://ibb.co/PZPm8KLN',600.00,38,9,'2025-12-06 13:52:50','2025-12-06 17:23:01'),(4,'ART-00004','Uncharted 3 Drake\'s Deception','UNCHARTED 3: La traición de Drake combinará la narración de la trama con dramáticas secuencias de acción y un ritmo trepidante, lo que te permitirá vivir una experiencia cinemática interactiva que difumina los límites entre los juegos y las películas de Hollywood. Nuevas ubicaciones, nuevos desafíos y entornos detallados al milímetro.','https://ibb.co/Y4WdxdP9',80.00,58,5,'2025-12-06 16:29:34','2025-12-06 18:20:27'),(5,'ART-00005','Metal Gear Solid 4 Guns Of The Patriots','Metal Gear Solid 4: Guns of the Patriots es el primer juego de Kojima Productions para Playstation 3.','https://ibb.co/9mQhYndJ',250.00,35,5,'2025-12-06 16:31:00','2025-12-06 16:31:00'),(6,'ART-00006','Dead Space 2','El ingeniero Isaac Clarke vuelve para otra sangrienta aventura en la secuela del aclamado Dead Space.','https://ibb.co/b5WTV8rb',200.00,35,5,'2025-12-06 18:36:29','2025-12-06 18:36:29'),(7,'ART-00007','Uncharted 2 Among Thieves GOTY','El cazador de tesoros Nathan Drake vuelve en Uncharted 2: El Reino de los Ladrones, un impresionante juego de acción y aventura en tercera persona creado por el galardonado desarrollador Naughty Dog en exclusiva para Playstation 3.','https://ibb.co/0yq7mtF7',80.00,24,5,'2025-12-06 18:37:36','2025-12-06 22:46:00'),(8,'ART-00008','Gran Turismo 4','La conducción virtual entra en una nueva era con el regreso del aplaudido Gran Turismo . Abarcando más de un siglo de la historia del motor, GT4 ofrece una cantidad de vehículos sin precedentes (más de 700 en total, incluidos 10 totalmente exclusivos para Europa), nuevas características increíbles y gráficos fotorrealistas que van más allá de tus sueños más salvajes.','https://ibb.co/ymQhh9cs',300.00,15,4,'2025-12-06 18:41:55','2025-12-06 18:41:55'),(9,'ART-00009','Killzone','Una aventura epica inspirada en los escenarios belicos mas conocidos de los ultimos tiempos, Un potente arsenal de armas realistas, Unos espectaculares modos multijugador que permiten cmbatir online a otros jugadores o contra ellos.','https://ibb.co/k2B7mPJv',250.00,15,4,'2025-12-06 18:56:49','2025-12-06 18:56:49'),(10,'ART-00010','Playstation 3 Slim 120GB','La PS3 Slim tiene un reproductor de discos Blu-Ray con todas las funciones para que las películas y los juegos se puedan disfrutar con una resolución de alta definición completa a través del puerto HDMI incorporado.','https://ibb.co/nhTGzDq',2900.00,10,10,'2025-12-06 23:33:30','2025-12-06 23:33:30'),(11,'ART-00011','Xbox 360 Slim 4GB',NULL,'https://ibb.co/m5BhhV9t',2000.00,15,12,'2025-12-06 23:34:42','2025-12-06 23:34:42'),(12,'ART-00012','Nintendo 3DS XL Azul',NULL,'https://ibb.co/cKkgypw2',4200.00,35,11,'2025-12-06 23:36:01','2025-12-06 23:36:01'),(13,'ART-00013','Xbox360 Control Oficial',NULL,'https://ibb.co/C3Tn84sR',600.00,50,7,'2025-12-06 23:39:18','2025-12-06 23:39:18'),(14,'ART-00014','Control Dualshock3 Oficial',NULL,'https://ibb.co/BKBRC8pM',800.00,25,8,'2025-12-06 23:40:50','2025-12-06 23:40:50');
+/*!40000 ALTER TABLE `articulo` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 

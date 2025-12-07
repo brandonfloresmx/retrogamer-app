@@ -10,6 +10,13 @@ const clienteRoutes = require('./src/routes/clienteRoutes');
 const authRoutes = require('./src/routes/authRoutes');
 const articuloRoutes = require('./src/routes/articuloRoutes');
 const categoriaRoutes = require('./src/routes/categoriaRoutes');
+const bannerRoutes = require('./src/routes/bannerRoutes');
+const carritoRoutes = require('./src/routes/carritoRoutes');
+const pedidoRoutes = require('./src/routes/pedidoRoutes');
+const direccionRoutes = require('./src/routes/direccionRoutes');
+const metodoPagoRoutes = require('./src/routes/metodoPagoRoutes');
+const favoritoRoutes = require('./src/routes/favoritoRoutes');
+const envioRoutes = require('./src/routes/envioRoutes');
 
 const requireAdmin = require('./src/middleware/requireAdmin');
 const pool = require('./src/db/pool'); 
@@ -31,12 +38,48 @@ app.use(
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Rutas API
+// Rutas públicas (sin autenticación)
+app.use('/api/banners', bannerRoutes); // GET /api/banners (sin admin)
+app.use('/api/public/articulos', articuloRoutes); // Usa las rutas /public dentro de articuloRoutes
+
+// Middleware condicional para categorías: permite /public/padre/:slug sin auth, requiere admin para el resto
+app.use('/api/categorias', (req, res, next) => {
+  // Si es una ruta pública, permitir sin autenticación
+  if (req.path.startsWith('/public/padre/')) {
+    return next();
+  }
+  // Para todas las otras rutas, requerir admin
+  if (!req.session || !req.session.adminId) {
+    if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept?.includes('application/json')) {
+      return res.status(401).json({ mensaje: 'No autenticado' });
+    }
+    return res.redirect('/admin/login');
+  }
+  next();
+}, categoriaRoutes);
+
+// Rutas API autenticadas
 app.use('/api/auth', authRoutes);
+app.use('/api/carrito', carritoRoutes); // Carrito requiere cliente logueado
+app.use('/api/pedidos', pedidoRoutes); // Pedidos requiere cliente logueado
+app.use('/api/direcciones', direccionRoutes); // Direcciones cliente
+app.use('/api/metodos-pago', metodoPagoRoutes); // Métodos de pago cliente
+app.use('/api/favoritos', favoritoRoutes); // Favoritos cliente
+app.use('/api', envioRoutes); // Rutas de envío (admin protegidas internamente)
+
+// Ruta admin para banners (la ruta con requireAdmin internamente)
+app.use('/api/admin/banners', (req, res, next) => {
+  if (!req.session || !req.session.adminId) {
+    if (req.headers['x-requested-with'] === 'XMLHttpRequest' || req.headers.accept?.includes('application/json')) {
+      return res.status(401).json({ mensaje: 'No autenticado' });
+    }
+    return res.redirect('/admin/login');
+  }
+  next();
+}, bannerRoutes);
 
 app.use('/api/clientes', requireAdmin, clienteRoutes);
-app.use('/api/articulos', requireAdmin, articuloRoutes); 
-app.use('/api/categorias', requireAdmin, categoriaRoutes);
+app.use('/api/articulos', requireAdmin, articuloRoutes);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

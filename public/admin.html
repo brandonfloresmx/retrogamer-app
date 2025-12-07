@@ -42,6 +42,33 @@
           <span class="material-symbols-outlined">category</span>
           <span>Categorías</span>
         </button>
+
+        <button
+          type="button"
+          class="admin-nav-link"
+          data-view="banners"
+        >
+          <span class="material-symbols-outlined">panorama</span>
+          <span>Banners</span>
+        </button>
+
+        <button
+          type="button"
+          class="admin-nav-link"
+          data-view="pedidos"
+        >
+          <span class="material-symbols-outlined">receipt_long</span>
+          <span>Pedidos</span>
+        </button>
+
+        <button
+          type="button"
+          class="admin-nav-link"
+          data-view="envios"
+        >
+          <span class="material-symbols-outlined">local_shipping</span>
+          <span>Envíos</span>
+        </button>
       </nav>
 
       <div class="admin-topbar-right">
@@ -346,14 +373,316 @@
             </div>
           </section>
         </div>
-      </section>   
+      </section>
+
+      <!-- VISTA BANNERS -->
+      <section id="view-banners" class="admin-view hidden">
+        <div class="layout">
+          <!-- Formulario Banner -->
+          <section class="card">
+            <div class="card-header">
+              <h2 id="formBannerTitulo">Nuevo banner</h2>
+              <span class="pill" id="modoBannerEtiqueta">Modo creación</span>
+            </div>
+            <p class="subtext">Gestiona los banners del carrusel de la tienda.</p>
+
+            <form id="formBanner" autocomplete="off" enctype="multipart/form-data">
+              <label for="bannerTitulo">Título (opcional)</label>
+              <input type="text" id="bannerTitulo" placeholder="Ej. Ofertas de Temporada" />
+
+              <label for="bannerLink">Link (opcional)</label>
+              <input type="url" id="bannerLink" placeholder="https://ejemplo.com" />
+
+              <div class="field-row">
+                <div>
+                  <label for="bannerOrden">Orden</label>
+                  <input type="number" id="bannerOrden" placeholder="0" value="0" />
+                </div>
+                <div>
+                  <label for="bannerActivo">Estado</label>
+                  <select id="bannerActivo">
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                  </select>
+                </div>
+              </div>
+
+              <label for="bannerImagen">Imagen del banner</label>
+              <input type="file" id="bannerImagen" accept="image/*" />
+              <p class="input-hint">Tamaño recomendado: 1920x400px. Máximo 5MB.</p>
+
+              <div id="bannerImagenPreview" style="display:none; margin-top:10px;">
+                <img id="bannerImagenPreviewImg" src="" alt="Preview" style="max-width:100%; max-height:200px; border-radius:8px;" />
+              </div>
+
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                  <span class="material-symbols-outlined">save</span>
+                  <span id="btnBannerGuardarTexto">Guardar banner</span>
+                </button>
+                <button type="button" class="btn btn-secondary" id="btnBannerCancelar">
+                  <span class="material-symbols-outlined">keyboard_return</span>
+                  Cancelar
+                </button>
+              </div>
+            </form>
+
+            <div id="mensajeBanner" class="status"></div>
+          </section>
+
+          <!-- Lista de Banners -->
+          <section class="card">
+            <div class="card-header">
+              <h2>Listado de banners</h2>
+            </div>
+
+            <div class="list-header">
+              <div class="count-chip">
+                Total: <span id="totalBanners">0</span>
+              </div>
+            </div>
+
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Preview</th>
+                    <th>Título</th>
+                    <th>Orden</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyBanners"></tbody>
+              </table>
+            </div>
+
+            <div id="estadoTablaBanners" class="empty-state" style="display:none;">
+              No hay banners registrados. Agrega uno nuevo.
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- VISTA PEDIDOS -->
+      <section id="view-pedidos" class="admin-view hidden">
+        <section class="card">
+          <div class="card-header">
+            <h2>Pedidos</h2>
+          </div>
+
+          <div class="list-header">
+            <div class="search-box">
+              <span class="material-symbols-outlined">search</span>
+              <input
+                type="text"
+                id="buscarPedidos"
+                placeholder="Buscar #pedido o teléfono..."
+              />
+            </div>
+
+            <div class="filters-row">
+              <select id="filtroEstadoPedidos" class="select-control">
+                <option value="">Todos los estados</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="pagado">Pagado</option>
+                <option value="enviado">Enviado</option>
+                <option value="entregado">Entregado</option>
+                <option value="cancelado">Cancelado</option>
+              </select>
+
+              <select id="ordenPedidos" class="select-control">
+                <option value="fecha-desc">Fecha: recientes</option>
+                <option value="fecha-asc">Fecha: antiguos</option>
+                <option value="total-desc">Total: mayor a menor</option>
+                <option value="total-asc">Total: menor a mayor</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Cliente</th>
+                  <th>Fecha</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="cuerpoTablaPedidos">
+                <!-- Se cargará dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="estadoTablaPedidos" class="empty-state" style="display:none;">
+            No hay pedidos registrados.
+          </div>
+        </section>
+      </section>
+
+      <!-- Modal detalle pedido -->
+      <div id="modalPedido" class="modal hidden">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 id="modalPedidoTitulo">Pedido</h3>
+            <button id="cerrarModalPedido" class="btn-close-modal">
+              <span class="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <div class="modal-body" id="modalPedidoBody">
+            <!-- Contenido dinámico -->
+          </div>
+          <div class="modal-footer">
+            <div style="display: flex; gap: 8px;">
+              <button id="btnImprimirPedido" class="btn btn-secondary" title="Imprimir o guardar como PDF">
+                <span class="material-symbols-outlined" style="font-size: 18px;">print</span>
+              </button>
+              <button id="btnDescargarPedido" class="btn btn-secondary" title="Descargar como PDF">
+                <span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+              </button>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button id="btnGuardarEstado" class="btn btn-primary">Guardar cambios</button>
+              <button id="btnCerrarModal" class="btn btn-secondary">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA ENVÍOS -->
+      <section id="view-envios" class="admin-view hidden">
+        <section class="card">
+          <div class="card-header">
+            <h2>Gestión de envíos</h2>
+          </div>
+          <p class="subtext">Administra las guías de envío y su estado.</p>
+
+          <div class="list-header">
+            <div class="search-box">
+              <span class="material-symbols-outlined">search</span>
+              <input
+                type="text"
+                id="buscarEnvios"
+                placeholder="Buscar #pedido o guía..."
+              />
+            </div>
+
+            <div class="filters-row">
+              <select id="filtroEstadoEnvios" class="select-control">
+                <option value="">Todos los estados</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="recogido">Recogido</option>
+                <option value="en_transito">En tránsito</option>
+                <option value="entregado">Entregado</option>
+                <option value="incidencia">Incidencia</option>
+              </select>
+
+              <select id="filtroCarrier" class="select-control">
+                <option value="">Todas las paqueterías</option>
+                <option value="DHL">DHL</option>
+                <option value="FedEx">FedEx</option>
+                <option value="Estafeta">Estafeta</option>
+                <option value="Redpack">Redpack</option>
+                <option value="99 Minutos">99 Minutos</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-scroll">
+            <table id="tablaEnvios">
+              <thead>
+                <tr>
+                  <th>Pedido</th>
+                  <th>Cliente</th>
+                  <th>Total</th>
+                  <th>Carrier</th>
+                  <th>Guía</th>
+                  <th>Estado Envío</th>
+                  <th>Estado Pedido</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyEnvios">
+                <!-- Se llena dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="estadoTablaEnvios" class="empty-state" style="display:none;">
+            No hay envíos registrados.
+          </div>
+        </section>
+      </section>
+
+      <!-- Modal editar envío -->
+      <div id="modalEditarEnvio" class="modal-overlay" style="display: none;">
+        <div class="modal-content" style="max-width: 600px;">
+          <div class="modal-header">
+            <h3>Editar envío - Pedido #<span id="modalEnvioPedidoId">0</span></h3>
+          </div>
+          <div class="modal-body">
+            <form id="formEditarEnvio" style="display: flex; flex-direction: column; gap: 16px;">
+              <div>
+                <label for="envioCarrier" style="display: block; margin-bottom: 4px; font-weight: 500;">Carrier / Paquetería</label>
+                <select id="envioCarrier" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: rgba(15,23,42,0.9); color: var(--text);" required>
+                  <option value="">Seleccionar paquetería</option>
+                  <option value="DHL">DHL</option>
+                  <option value="FedEx">FedEx</option>
+                  <option value="Estafeta">Estafeta</option>
+                  <option value="Redpack">Redpack</option>
+                  <option value="99 Minutos">99 Minutos</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="envioGuia" style="display: block; margin-bottom: 4px; font-weight: 500;">Número de guía</label>
+                <div style="display: flex; gap: 8px;">
+                  <input type="text" id="envioGuia" placeholder="Ej. 1234567890" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: rgba(15,23,42,0.9); color: var(--text);" required />
+                  <button type="button" id="btnCopiarGuia" class="btn btn-secondary" title="Copiar al portapapeles">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">content_copy</span>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label for="envioEstado" style="display: block; margin-bottom: 4px; font-weight: 500;">Estado del envío</label>
+                <select id="envioEstado" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; background: rgba(15,23,42,0.9); color: var(--text);" required>
+                  <option value="pendiente">Pendiente</option>
+                  <option value="recogido">Recogido</option>
+                  <option value="en_transito">En tránsito</option>
+                  <option value="entregado">Entregado</option>
+                  <option value="incidencia">Incidencia</option>
+                </select>
+              </div>
+
+              <div id="linkRastreo" style="display: none; padding: 12px; background: rgba(56,189,248,0.1); border-radius: 8px; border: 1px solid rgba(56,189,248,0.3);">
+                <div style="font-size: 0.85rem; color: var(--muted); margin-bottom: 6px;">Link de rastreo:</div>
+                <a id="linkRastreoUrl" href="#" target="_blank" style="color: var(--accent); text-decoration: none; word-break: break-all; font-size: 0.9rem;">
+                  Ver rastreo →
+                </a>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 8px;">
+            <button id="btnGuardarEnvio" class="btn btn-primary">Guardar cambios</button>
+            <button id="btnCerrarModalEnvio" class="btn btn-secondary">Cerrar</button>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
-
   <script src="/js/admin-shell.js"></script>
   <script src="/js/admin-clientes.js"></script>
   <script src="/js/admin-articulos.js"></script>
   <script src="/js/admin-categorias.js"></script>
+  <script src="/js/admin-banners.js"></script>
+  <script src="/js/admin-pedidos.js"></script>
+  <script src="/js/admin-envios.js"></script>
 </body>
 </html>
 
